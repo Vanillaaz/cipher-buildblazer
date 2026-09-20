@@ -1,0 +1,74 @@
+/* CIPHER Centralized Motion System */
+
+@keyframes contourFlow {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.12;
+  }
+  50% {
+    transform: translateY(-8px) scale(1.015);
+    opacity: 0.18;
+  }
+}
+
+@keyframes cursorBlink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes neonGlowPulse {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(0, 255, 102, 0.15), inset 0 0 12px rgba(0, 255, 102, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(0, 255, 102, 0.28), inset 0 0 18px rgba(0, 255, 102, 0.1);
+  }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(1000%); }
+}
+
+@keyframes subtleFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-contour-flow {
+  animation: contourFlow 16s ease-in-out infinite;
+}
+
+.animate-cursor-blink {
+  animation: cursorBlink 1s steps(2, start) infinite;
+}
+
+.animate-neon-glow {
+  animation: neonGlowPulse 4s ease-in-out infinite;
+}
+
+.animate-scanline {
+  animation: scanline 8s linear infinite;
+}
+
+.animate-fade-in {
+  animation: subtleFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  .animate-contour-flow,
+  .animate-cursor-blink,
+  .animate-neon-glow,
+  .animate-scanline,
+  .animate-fade-in {
+    animation: none !important;
+    transition: none !important;
+  }
+}

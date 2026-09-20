@@ -1,0 +1,83 @@
+[
+  {
+    "id": "elston-pereira",
+    "name": "Elston Pereira",
+    "role": "PRESIDENT",
+    "department": "CIPHER Executive Council",
+    "photo": "/assets/images/team/Elston_Pereira.png",
+    "bio": "Leading CIPHER association strategy, overall event execution, and departmental initiatives.",
+    "category": "executive"
+  },
+  {
+    "id": "raynell-lewis",
+    "name": "Raynell Lewis",
+    "role": "VICE PRESIDENT",
+    "department": "CIPHER Executive Council",
+    "photo": "/assets/images/team/Raynell_Lewis.jpg",
+    "bio": "Assisting executive leadership, inter-club coordination, and student engagement.",
+    "category": "executive"
+  },
+  {
+    "id": "chaithra-rm",
+    "name": "Chaithra RM",
+    "role": "SECRETARY",
+    "department": "CIPHER Executive Council",
+    "photo": "/assets/images/team/Chaithra_RM.jpg",
+    "bio": "Managing official association documentation, communications, and meeting agendas.",
+    "category": "executive"
+  },
+  {
+    "id": "nazmin-ziya",
+    "name": "Nazmin Ziya",
+    "role": "TREASURER",
+    "department": "CIPHER Executive Council",
+    "photo": "/assets/images/team/Nazmin_Ziya.jpg",
+    "bio": "Overseeing financial planning, event budgeting, and departmental allocation.",
+    "category": "executive"
+  },
+  {
+    "id": "jeslin-ninora",
+    "name": "Jeslin Ninora",
+    "role": "JOINT TREASURER",
+    "department": "CIPHER Executive Council",
+    "photo": "/assets/images/team/Jeslin_Ninora.jpg",
+    "bio": "Assisting with treasury management, expense tracking, and event auditing.",
+    "category": "executive"
+  },
+  {
+    "id": "ruben-saldana",
+    "name": "Ruben Saldana",
+    "role": "OPERATIONS HEAD",
+    "department": "CIPHER Executive Council",
+    "photo": "/assets/images/team/Ruben_Saldana.webp",
+    "bio": "Directing event logistics, venue coordination, and operational execution.",
+    "category": "executive"
+  },
+  {
+    "id": "himansh-ullal",
+    "name": "Himansh Ullal",
+    "role": "DESIGN HEAD",
+    "department": "CIPHER Executive Council",
+    "photo": "/assets/images/team/Himansh_Ullal.jpg",
+    "bio": "Leading visual branding, graphic design, promotional assets, and UI aesthetics.",
+    "category": "executive"
+  },
+  {
+    "id": "shamitha-kv",
+    "name": "Shamitha KV",
+    "role": "CULTURAL HEAD",
+    "department": "CIPHER Executive Council",
+    "photo": "/assets/images/team/Shamitha_KV.jpg",
+    "bio": "Coordinating cultural performances, branch entry galas, and creative showcases.",
+    "category": "executive"
+  },
+  {
+    "id": "parthipan-j",
+    "name": "Parthipan J",
+    "role": "CONTENT HEAD",
+    "department": "CIPHER Executive Council",
+    "photo": "/assets/images/team/Parthipan_J.jpg",
+    "bio": "Directing editorial content, event reports, social media copy, and announcements.",
+    "category": "executive"
+  }
+]

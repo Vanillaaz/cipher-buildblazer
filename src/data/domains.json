@@ -1,0 +1,34 @@
+[
+  {
+    "id": "technical-skill-building",
+    "title": "Technical Skill Building",
+    "code": "DOM_01",
+    "icon": "code",
+    "description": "Fostering core computing competencies through hands-on technical workshops, GSoC preparation, LLM prompt engineering, and code debugging sessions.",
+    "highlights": ["Hands-on GSoC & LLM Workshops", "Prompt Engineering & Debugging", "GitHub Workflow & Git Practices"]
+  },
+  {
+    "id": "events-collaboration",
+    "title": "Events & Collaboration",
+    "code": "DOM_02",
+    "icon": "calendar",
+    "description": "Organizing flagship departmental hackathons, branch welcome galas, and competitive technical challenges in partnership with student clubs.",
+    "highlights": ["PromptOps Technical Competition", "Lumière Branch Entry Gala", "SJEC CSE Hackathons"]
+  },
+  {
+    "id": "leadership-governance",
+    "title": "Leadership & Governance",
+    "code": "DOM_03",
+    "icon": "shield",
+    "description": "Structuring student-led committees, departmental governance, executive roles, and peer mentorship networks to empower future tech leaders.",
+    "highlights": ["Student Executive Council", "Faculty-Guided Governance", "Peer Mentorship Networks"]
+  },
+  {
+    "id": "industry-readiness",
+    "title": "Industry Readiness",
+    "code": "DOM_04",
+    "icon": "cpu",
+    "description": "Connecting academic study with industry expectations via expert technical sessions, cloud platform insights, and AI career pathways.",
+    "highlights": ["Salesforce Agentforce Sessions", "AI & Cloud Career Pathways", "Industry Expert Dialogues"]
+  }
+]

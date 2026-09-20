@@ -1,0 +1,110 @@
+[
+  {
+    "id": "agentforce-technical-session",
+    "title": "Salesforce Agentforce Technical Session",
+    "category": "TECHNICAL SESSION",
+    "year": "2026"
+  },
+  {
+    "id": "demystifying-generative-models",
+    "title": "Demystifying Generative Models Workshop",
+    "category": "WORKSHOP",
+    "year": "2026"
+  },
+  {
+    "id": "applied-machine-learning",
+    "title": "Applied Machine Learning Workshop",
+    "category": "WORKSHOP",
+    "year": "2025"
+  },
+  {
+    "id": "industrial-visit",
+    "title": "Industrial Visit & Corporate Interaction",
+    "category": "FIELD VISIT",
+    "year": "2025"
+  },
+  {
+    "id": "latex-tool",
+    "title": "LaTeX Documentation & Academic Writing",
+    "category": "SKILL HANDS-ON",
+    "year": "2025"
+  },
+  {
+    "id": "rpa-uipath",
+    "title": "Robotic Process Automation using UiPath",
+    "category": "WORKSHOP",
+    "year": "2025"
+  },
+  {
+    "id": "hackto-future-20",
+    "title": "HackTO Future 20 Hackathon",
+    "category": "HACKATHON",
+    "year": "2025"
+  },
+  {
+    "id": "sport-of-programming",
+    "title": "How to Win at the Sport of Programming",
+    "category": "COMPETITIVE PROG",
+    "year": "2025"
+  },
+  {
+    "id": "google-crowdsource",
+    "title": "Introduction to Google Crowdsource",
+    "category": "COMMUNITY SESSION",
+    "year": "2025"
+  },
+  {
+    "id": "github-educational-session",
+    "title": "Educational Session on Git & GitHub",
+    "category": "VERSION CONTROL",
+    "year": "2025"
+  },
+  {
+    "id": "udaan-mock-interview",
+    "title": "UDAAN Technical Mock Interview Drive",
+    "category": "CAREER READINESS",
+    "year": "2025"
+  },
+  {
+    "id": "freshers-onboarding",
+    "title": "CSE Freshers Onboarding Programme",
+    "category": "DEPARTMENT GALA",
+    "year": "2025"
+  },
+  {
+    "id": "kscst-projects",
+    "title": "KSCST Funded Student Projects Showcase",
+    "category": "RESEARCH & EXPO",
+    "year": "2025"
+  },
+  {
+    "id": "generative-ai-research",
+    "title": "Generative AI Tools for Academic Research",
+    "category": "RESEARCH SEMINAR",
+    "year": "2025"
+  },
+  {
+    "id": "blockchain-solidity",
+    "title": "Introduction to Blockchain: Solidity Workshop",
+    "category": "WEB3 WORKSHOP",
+    "year": "2025"
+  },
+  {
+    "id": "star-uml-modeling",
+    "title": "Star UML Systems Architecture Modeling",
+    "category": "SOFTWARE DESIGN",
+    "year": "2025"
+  },
+  {
+    "id": "generative-ai-custom",
+    "title": "Generative AI: Enterprise Custom Solutions",
+    "category": "SEMINAR",
+    "year": "2025"
+  },
+  {
+    "id": "react-node-workshop",
+    "title": "Fullstack React.js and Node.js Workshop",
+    "category": "WEB DEV HANDS-ON",
+    "year": "2025"
+  }
+]

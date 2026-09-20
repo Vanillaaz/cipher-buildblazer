@@ -1,0 +1,82 @@
+[
+  {
+    "id": "promptops-2026",
+    "title": "PromptOps 2026 — AI Prompt Engineering Challenge",
+    "category": "Competition",
+    "date": "2026-03-25",
+    "displayDate": "25 MAR 2026",
+    "shortDescription": "High-stakes competitive prompt engineering and agent workflow challenge testing LLM orchestration.",
+    "description": "PromptOps 2026 is an intensive competitive prompt engineering challenge hosted by CIPHER, Department of Computer Science & Engineering. Students construct multi-stage system prompts, automate developer workflows, and evaluate model responses to solve complex computing tasks.",
+    "image": "/assets/images/events/promptops-main.jpg",
+    "gallery": [
+      "/assets/images/events/promptops-main.jpg",
+      "/assets/images/events/promptops-1.jpg",
+      "/assets/images/events/promptops-2.jpg",
+      "/assets/images/events/promptops-3.jpg"
+    ],
+    "location": "Computer Center, SJEC",
+    "organizer": "CIPHER Technical Domain",
+    "featured": true
+  },
+  {
+    "id": "gsoc-llm-workshop",
+    "title": "Google Summer of Code & LLM Engineering Workshop",
+    "category": "Workshop",
+    "date": "2026-02-13",
+    "displayDate": "13 FEB 2026",
+    "shortDescription": "Hands-on guide to open-source contributions, GSoC proposals, and LLM fine-tuning.",
+    "description": "An interactive hands-on workshop led by senior mentors and open-source contributors. Participants learned the fundamentals of navigating open-source repositories, crafting competitive GSoC proposals, and deploying lightweight LLMs locally for developer tools.",
+    "image": "/assets/images/events/gsoc-main.jpg",
+    "gallery": [
+      "/assets/images/events/gsoc-main.jpg",
+      "/assets/images/events/gsoc-1.jpg",
+      "/assets/images/events/gsoc-2.jpg",
+      "/assets/images/events/gsoc-3.jpg"
+    ],
+    "location": "Academic Block III Auditorium, SJEC",
+    "organizer": "CIPHER Industry Domain",
+    "featured": true
+  },
+  {
+    "id": "cybersecurity-pathways",
+    "title": "Cybersecurity & Cloud Security Career Pathways",
+    "category": "Industry Session",
+    "date": "2026-01-18",
+    "displayDate": "18 JAN 2026",
+    "shortDescription": "Expert breakdown of modern threat vectors, ethical hacking, and cloud defense strategies.",
+    "description": "An insightful industry interaction focusing on offensive and defensive security practices. Industry speakers provided real-world insights into threat vectors, penetration testing tools, cloud infrastructure security, and career entryways for CSE undergraduates.",
+    "image": "/assets/images/events/cyber-main.jpg",
+    "gallery": [
+      "/assets/images/events/cyber-main.jpg",
+      "/assets/images/events/cyber-1.jpg",
+      "/assets/images/events/cyber-2.jpg",
+      "/assets/images/events/cyber-3.jpg"
+    ],
+    "location": "Seminar Hall, Department of CSE",
+    "organizer": "CIPHER Leadership Council",
+    "featured": false
+  },
+  {
+    "id": "lumiere-gala",
+    "title": "Lumière – The Annual Departmental Gala",
+    "category": "Flagship Gala",
+    "date": "2025-11-05",
+    "displayDate": "05 NOV 2025",
+    "shortDescription": "The inaugural entry programme celebrating CSE achievements, culture, and council induction.",
+    "description": "Lumière is the flagship welcoming gala of the Department of Computer Science & Engineering. The event brought together faculty, alumni, and students to celebrate academic milestones, showcase cultural performances, and formally inaugurate the incoming CIPHER executive council.",
+    "image": "/assets/images/events/gala/gala-1.jpg",
+    "gallery": [
+      "/assets/images/events/gala/gala-1.jpg",
+      "/assets/images/events/gala/gala-2.jpg",
+      "/assets/images/events/gala/gala-3.jpg",
+      "/assets/images/events/gala/gala-4.jpg",
+      "/assets/images/events/gala/gala-5.jpg",
+      "/assets/images/events/gala/gala-6.jpg",
+      "/assets/images/events/gala/gala-7.jpg",
+      "/assets/images/events/gala/gala-8.jpg"
+    ],
+    "location": "Kalam Auditorium, SJEC",
+    "organizer": "CIPHER Cultural Domain",
+    "featured": true
+  }
+]
