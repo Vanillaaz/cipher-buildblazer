@@ -5,7 +5,8 @@ export interface TeamMember {
   department: string;
   photo: string;
   bio?: string;
-  category?: 'head' | 'faculty' | 'student';
+  category?: 'head' | 'faculty' | 'student' | 'executive';
+  linkedin?: string;
   socials?: {
     linkedin?: string;
     github?: string;

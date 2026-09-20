@@ -10,11 +10,11 @@ export const JoinSection: React.FC = () => {
   return (
     <section
       id="join"
-      className="relative w-full py-16 md:py-24 border-t border-[#00FF66]/10 overflow-hidden select-none"
+      className="relative w-full py-10 md:py-16 border-t border-[#00FF66]/10 scroll-mt-16 overflow-hidden select-none"
     >
       <PageContainer>
         {/* Main Technical Container */}
-        <div className="relative bg-[#080C0A] border border-[#00FF66]/25 p-8 sm:p-12 md:p-16 rounded-xs shadow-[0_0_35px_rgba(0,255,102,0.12)] text-left overflow-hidden">
+        <div className="relative bg-[#080C0A] border border-[#00FF66]/25 p-6 sm:p-8 md:p-10 rounded-xs shadow-[0_0_35px_rgba(0,255,102,0.12)] text-left overflow-hidden">
           {/* Subtle Corner Markers */}
           <div className="absolute top-2 left-2 w-3 h-3 border-t border-l border-[#00FF66]" />
           <div className="absolute top-2 right-2 w-3 h-3 border-t border-r border-[#00FF66]" />

@@ -9,7 +9,7 @@ export const DomainsSection: React.FC = () => {
   const domains: DomainItem[] = domainsData as DomainItem[];
 
   return (
-    <section id="domains" className="relative w-full py-16 md:py-24 border-t border-[#00FF66]/10">
+    <section id="domains" className="relative w-full min-h-[calc(100vh-3.5rem)] flex flex-col justify-center py-6 md:py-8 border-t border-[#00FF66]/10 scroll-mt-14 md:scroll-mt-16">
       <PageContainer>
         <SectionHeading
           label="// WHAT WE DO"
@@ -18,7 +18,7 @@ export const DomainsSection: React.FC = () => {
         />
 
         {/* 2x2 Desktop Grid, 1-Column Mobile Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
           {domains.map((domain) => (
             <DomainCard key={domain.id} domain={domain} />
           ))}

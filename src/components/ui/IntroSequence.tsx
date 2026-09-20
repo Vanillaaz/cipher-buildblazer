@@ -205,11 +205,12 @@ export const IntroSequence: React.FC<IntroSequenceProps> = ({ onComplete }) => {
               return (
                 <span
                   key={idx}
-                  className={`font-serif font-extrabold text-5xl sm:text-7xl md:text-8xl lg:text-9xl transition-all duration-150 ${
+                  className={`font-black text-5xl sm:text-7xl md:text-8xl lg:text-9xl tracking-[0.15em] transition-all duration-150 ${
                     isLocked
-                      ? 'text-[#00FF66] drop-shadow-[0_0_35px_rgba(0,255,102,0.95)] scale-100'
-                      : 'text-[#00FF66]/70 drop-shadow-[0_0_15px_rgba(0,255,102,0.4)] scale-105 font-mono'
+                      ? 'text-[#00FF66] drop-shadow-[0_0_40px_rgba(0,255,102,1)] scale-100'
+                      : 'text-[#00FF66]/70 drop-shadow-[0_0_15px_rgba(0,255,102,0.4)] scale-105'
                   }`}
+                  style={{ fontFamily: "'Pirata One', 'Cinzel Decorative', cursive" }}
                 >
                   {glyph}
                 </span>

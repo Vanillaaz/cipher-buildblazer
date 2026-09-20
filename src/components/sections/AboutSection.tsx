@@ -42,7 +42,7 @@ export const AboutSection: React.FC = () => {
     <section
       id="about"
       ref={sectionRef}
-      className="relative w-full py-16 md:py-24 border-t border-[#00FF66]/10 overflow-hidden"
+      className="relative w-full min-h-[calc(100vh-3.5rem)] flex flex-col justify-center py-6 md:py-8 border-t border-[#00FF66]/10 scroll-mt-14 md:scroll-mt-16 overflow-hidden"
     >
       <PageContainer>
         <SectionHeading
@@ -51,16 +51,16 @@ export const AboutSection: React.FC = () => {
           description="The official student association of the Department of Computer Science & Engineering at St Joseph Engineering College, Mangalore."
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center pt-2">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-center pt-1">
           {/* Text Content Column with Coordinated Reveal */}
           <div
-            className={`lg:col-span-6 space-y-6 text-left transition-all duration-700 ease-out ${
+            className={`lg:col-span-6 space-y-4 text-left transition-all duration-700 ease-out ${
               prefersReducedMotion || isTextVisible
                 ? 'opacity-100 translate-y-0'
                 : 'opacity-0 translate-y-6'
             }`}
           >
-            <div className="bg-[#0D1410] border border-[#00FF66]/20 p-6 md:p-8 rounded-sm space-y-4 shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
+            <div className="bg-[#0D1410] border border-[#00FF66]/20 p-5 md:p-6 rounded-sm space-y-3 shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
               <div className="inline-flex items-center gap-2 font-mono text-xs text-[#00FF66] bg-[#00FF66]/10 px-3 py-1 rounded-xs border border-[#00FF66]/20">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#00FF66] animate-pulse" />
                 // ESTABLISHED • SJEC CSE DEPARTMENT

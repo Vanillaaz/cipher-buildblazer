@@ -8,31 +8,34 @@ import {
   HeroSection,
   AboutSection,
   DomainsSection,
-  LeadershipSection,
+  TeamSection,
   EventsSection,
   ArchiveSection,
   JoinSection,
+  CustomCursor,
 } from '../components';
 
 export const HomePage: React.FC = () => {
   const [introFinished, setIntroFinished] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#080C0A] text-gray-100 flex flex-col relative selection:bg-[#00FF66] selection:text-black">
+    <div className="min-h-screen bg-[#080C0A] text-gray-100 flex flex-col relative selection:bg-[#00FF66] selection:text-black cursor-none">
+      {/* Global custom cursor ring */}
+      <CustomCursor />
       {/* Intro Boot Sequence Modal */}
       {!introFinished && (
         <IntroSequence onComplete={() => setIntroFinished(true)} />
       )}
 
       {/* Shared Continuous Contour Background System */}
-      <ContourBackground opacity={0.25} />
+      <ContourBackground opacity={1} />
       <TerminalTexture enabled={true} opacity={0.04} />
 
       {/* Global Header Navigation */}
       <SiteHeader />
 
       {/* Main Content Area */}
-      <main className="flex-1 z-10">
+      <main className="flex-1">
         {/* Hero Section */}
         <HeroSection />
 
@@ -42,8 +45,8 @@ export const HomePage: React.FC = () => {
         {/* Our Domains Section */}
         <DomainsSection />
 
-        {/* Leadership / Governance Section */}
-        <LeadershipSection />
+        {/* Team / Governance Section */}
+        <TeamSection />
 
         {/* Events & Workshops Section */}
         <EventsSection />

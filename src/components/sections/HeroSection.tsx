@@ -17,47 +17,51 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   return (
     <section
       id="home"
-      className="relative w-full min-h-[calc(100vh-4rem)] flex flex-col justify-center overflow-hidden pt-4 md:pt-8 pb-10 md:pb-14"
+      className="relative w-full min-h-screen flex flex-col justify-between overflow-hidden"
     >
       {/* Background Decorative Technical Accent Layer */}
       <HeroTerminalVisual />
 
-      {/* Main Left-Aligned Hero Layout Container */}
-      <PageContainer className="relative z-10 flex flex-col items-start text-left animate-fade-in my-auto py-2">
-        {/* Glyph-Built CIPHER Wordmark Banner (Composed of Tiny Green Characters) */}
-        <div className="mb-3 md:mb-5 w-full max-w-4xl">
-          <CipherGlyphWordmark />
-        </div>
+      {/* ── CIPHER Glyph Wordmark ── full-bleed, no side padding */}
+      <div className="relative z-10 w-full pt-16 md:pt-20 drop-shadow-[0_0_60px_rgba(0,255,102,0.55)]">
+        <CipherGlyphWordmark />
+      </div>
 
-        {/* Association Title (H1 - Green Sans-Serif Typography) */}
-        <h1 className="text-[#00FF66] font-extrabold text-xl sm:text-3xl md:text-4xl lg:text-[2.75rem] tracking-tight max-w-2xl mb-3 leading-[1.18] drop-shadow-[0_0_15px_rgba(0,255,102,0.4)]">
-          Student Association of Computer Science &amp;<br className="hidden sm:inline" /> Engineering
-        </h1>
+      {/* ── Text content + CTAs ── sits below the wordmark */}
+      <div className="relative z-10 pb-12 md:pb-16 animate-fade-in">
+        <PageContainer className="!py-0 flex flex-col items-start text-left">
+          {/* Association Title — H1 */}
+          <h1 className="text-[#00FF66] font-extrabold text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight max-w-3xl mb-3 leading-[1.15] drop-shadow-[0_0_25px_rgba(0,255,102,0.5)]">
+            Student Association of<br className="hidden sm:inline" />
+            Computer Science &amp; Engineering
+          </h1>
 
-        {/* Supporting Description (Monospace Technical Appearance) */}
-        <p className="text-gray-300 font-mono text-xs sm:text-sm md:text-base max-w-xl mb-6 leading-relaxed font-normal opacity-90">
-          Bridging academic knowledge and practical application &mdash; a community of aspiring professionals in computing.
-        </p>
+          {/* Supporting description */}
+          <p className="text-gray-300 font-mono text-xs sm:text-sm md:text-base max-w-xl mb-7 leading-relaxed opacity-90">
+            Bridging academic knowledge and practical application<br className="hidden sm:inline" />
+            &mdash; a community of aspiring professionals in computing.
+          </p>
 
-        {/* Action CTAs (Left-to-Right Order: JOIN CIPHER → Solid Green First, EXPLORE EVENTS Outlined Second) */}
-        <div className="flex flex-col sm:flex-row items-center justify-start gap-4 w-full sm:w-auto pt-1">
-          <PrimaryButton
-            href="#join"
-            onClick={onJoinCipher}
-            className="w-full sm:w-auto min-w-[190px]"
-          >
-            JOIN CIPHER &rarr;
-          </PrimaryButton>
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row items-center justify-start gap-4 w-full sm:w-auto">
+            <PrimaryButton
+              href="#join"
+              onClick={onJoinCipher}
+              className="w-full sm:w-auto min-w-[190px]"
+            >
+              JOIN CIPHER &rarr;
+            </PrimaryButton>
 
-          <SecondaryButton
-            href="#events"
-            onClick={onExploreEvents}
-            className="w-full sm:w-auto min-w-[190px]"
-          >
-            EXPLORE EVENTS
-          </SecondaryButton>
-        </div>
-      </PageContainer>
+            <SecondaryButton
+              href="#events"
+              onClick={onExploreEvents}
+              className="w-full sm:w-auto min-w-[190px]"
+            >
+              EXPLORE EVENTS
+            </SecondaryButton>
+          </div>
+        </PageContainer>
+      </div>
     </section>
   );
 };

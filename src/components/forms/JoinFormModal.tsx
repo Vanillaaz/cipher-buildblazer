@@ -116,15 +116,15 @@ export const JoinFormModal: React.FC<JoinFormModalProps> = ({ isOpen, onClose })
       role="dialog"
       aria-modal="true"
       aria-labelledby="join-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto bg-[#050806]/85 backdrop-blur-md animate-fade-in"
+      className="fixed inset-0 z-[9999] flex items-start justify-center pt-16 sm:pt-20 md:pt-24 pb-8 px-4 sm:px-6 overflow-y-auto bg-[#030504]/94 backdrop-blur-xl animate-fade-in cursor-none"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-2xl bg-[#080C0A] border border-[#00FF66]/40 rounded-xs shadow-[0_0_40px_rgba(0,255,102,0.25)] overflow-hidden my-auto flex flex-col max-h-[90vh]"
+        className="relative w-full max-w-xl sm:max-w-2xl bg-[#080C0A] border border-[#00FF66]/50 rounded-xs shadow-[0_0_60px_rgba(0,0,0,0.95),0_0_35px_rgba(0,255,102,0.25)] overflow-hidden my-auto flex flex-col max-h-[80vh] sm:max-h-[82vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-[#00FF66]/20 bg-[#0A100C]">
+        <div className="flex items-center justify-between px-5 py-3.5 border-b border-[#00FF66]/20 bg-[#0A100C] shrink-0">
           <div className="flex items-center gap-2 font-mono text-xs text-[#00FF66]">
             <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-pulse" />
             <span>CIPHER // JOIN APPLICATION</span>

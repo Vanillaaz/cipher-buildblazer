@@ -42,7 +42,7 @@ export const SiteFooter: React.FC = () => {
           <nav className="flex flex-wrap items-center justify-center gap-6 text-xs text-gray-300 tracking-widest uppercase" aria-label="Footer Navigation">
             <a href="#home" className="hover:text-[#00FF66] transition-colors py-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00FF66]">HOME</a>
             <a href="#about" className="hover:text-[#00FF66] transition-colors py-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00FF66]">ABOUT</a>
-            <a href="#leadership" className="hover:text-[#00FF66] transition-colors py-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00FF66]">LEADERSHIP</a>
+            <a href="#team" className="hover:text-[#00FF66] transition-colors py-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00FF66]">TEAM</a>
             <a href="#events" className="hover:text-[#00FF66] transition-colors py-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00FF66]">EVENTS</a>
             <a href="#join" className="hover:text-[#00FF66] transition-colors py-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#00FF66]">JOIN</a>
           </nav>
@@ -61,16 +61,58 @@ export const SiteFooter: React.FC = () => {
           </div>
         </div>
 
-        {/* Bottom Copyright Row */}
-        <div className="pt-6 border-t border-[#00FF66]/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-gray-500">
-          <p className="text-gray-400">© 2026 CIPHER SJEC.</p>
-          <div className="flex items-center gap-4 text-gray-400">
+        {/* Bottom Copyright & Contact Links Row */}
+        <div className="pt-6 border-t border-[#00FF66]/10 flex flex-col md:flex-row items-center justify-between gap-6 text-[11px] text-gray-400">
+          <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
+            <p>© 2026 CIPHER SJEC.</p>
+            <span className="text-[#00FF66]/40 hidden sm:inline">//</span>
             <span>DEPARTMENT OF COMPUTER SCIENCE &amp; ENGINEERING</span>
-            <span className="text-[#00FF66] hidden sm:inline">// SJEC MANGALORE</span>
+          </div>
+
+          {/* Contact Social Links — Circular Icon Buttons */}
+          <div className="flex items-center gap-3.5">
+            {/* Email */}
+            <a
+              href="mailto:cipher@sjec.ac.in"
+              aria-label="Email CIPHER"
+              className="w-11 h-11 rounded-full border border-[#00FF66]/35 flex items-center justify-center text-[#00FF66] bg-[#080C0A] hover:border-[#00FF66] hover:bg-[#00FF66]/15 hover:shadow-[0_0_20px_rgba(0,255,102,0.4)] hover:scale-105 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00FF66]"
+            >
+              <svg className="w-5 h-5 fill-none stroke-current stroke-[1.75]" viewBox="0 0 24 24">
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+            </a>
+
+            {/* LinkedIn */}
+            <a
+              href="https://www.linkedin.com/company/ciphersjec/home/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="CIPHER LinkedIn"
+              className="w-11 h-11 rounded-full border border-[#00FF66]/35 flex items-center justify-center text-[#00FF66] bg-[#080C0A] hover:border-[#00FF66] hover:bg-[#00FF66]/15 hover:shadow-[0_0_20px_rgba(0,255,102,0.4)] hover:scale-105 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00FF66]"
+            >
+              <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.7a1.62 1.62 0 1 0 0 3.24 1.62 1.62 0 0 0 0-3.24z"/>
+              </svg>
+            </a>
+
+            {/* Instagram */}
+            <a
+              href="https://www.instagram.com/ciphersjec/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="CIPHER Instagram"
+              className="w-11 h-11 rounded-full border border-[#00FF66]/35 flex items-center justify-center text-[#00FF66] bg-[#080C0A] hover:border-[#00FF66] hover:bg-[#00FF66]/15 hover:shadow-[0_0_20px_rgba(0,255,102,0.4)] hover:scale-105 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00FF66]"
+            >
+              <svg className="w-5 h-5 fill-none stroke-current stroke-[1.75]" viewBox="0 0 24 24">
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+              </svg>
+            </a>
           </div>
         </div>
       </div>
     </footer>
   );
 };
-

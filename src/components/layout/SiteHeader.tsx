@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { CipherEmblemLogo } from '../ui/CipherEmblemLogo';
 
 export interface NavItem {
   label: string;
@@ -9,7 +8,7 @@ export interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { label: 'HOME', href: '#home' },
   { label: 'ABOUT', href: '#about' },
-  { label: 'LEADERSHIP', href: '#leadership' },
+  { label: 'TEAM', href: '#team' },
   { label: 'EVENTS', href: '#events' },
   { label: 'JOIN', href: '#join' },
 ];
@@ -24,12 +23,19 @@ export const SiteHeader: React.FC = () => {
   return (
     <header className="sticky top-0 z-50 w-full bg-[#080C0A]/90 backdrop-blur-md border-b border-[#00FF66]/15 transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 md:h-16 flex items-center justify-between">
-        {/* Top Left Winged Crest Emblem Brand Logo */}
+        {/* Official CIPHER Logo — top left */}
         <a
           href="#home"
-          className="flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00FF66] rounded-sm py-1"
+          className="flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00FF66] rounded-sm py-1"
+          aria-label="CIPHER Home"
         >
-          <CipherEmblemLogo size={36} />
+          <img
+            src="/assets/images/cipher-logo.jpg"
+            alt="CIPHER – CSE Student Association, SJEC"
+            className="w-[52px] md:w-[80px] h-auto object-contain select-none"
+            style={{ mixBlendMode: 'screen' }}
+            draggable={false}
+          />
         </a>
 
         {/* Center Navigation Links */}

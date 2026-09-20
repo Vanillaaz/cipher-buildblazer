@@ -6,7 +6,8 @@
     "department": "CIPHER Executive Council",
     "photo": "/assets/images/team/Elston_Pereira.png",
     "bio": "Leading CIPHER association strategy, overall event execution, and departmental initiatives.",
-    "category": "executive"
+    "category": "executive",
+    "linkedin": "https://www.linkedin.com/in/elston-pereira-452138297/"
   },
   {
     "id": "raynell-lewis",
@@ -15,7 +16,8 @@
     "department": "CIPHER Executive Council",
     "photo": "/assets/images/team/Raynell_Lewis.jpg",
     "bio": "Assisting executive leadership, inter-club coordination, and student engagement.",
-    "category": "executive"
+    "category": "executive",
+    "linkedin": "https://www.linkedin.com/in/raynell-lewis-8778a4394/"
   },
   {
     "id": "chaithra-rm",
@@ -33,7 +35,8 @@
     "department": "CIPHER Executive Council",
     "photo": "/assets/images/team/Nazmin_Ziya.jpg",
     "bio": "Overseeing financial planning, event budgeting, and departmental allocation.",
-    "category": "executive"
+    "category": "executive",
+    "linkedin": "https://www.linkedin.com/in/nazmin-ziya/"
   },
   {
     "id": "jeslin-ninora",
@@ -51,7 +54,8 @@
     "department": "CIPHER Executive Council",
     "photo": "/assets/images/team/Ruben_Saldana.webp",
     "bio": "Directing event logistics, venue coordination, and operational execution.",
-    "category": "executive"
+    "category": "executive",
+    "linkedin": "https://www.linkedin.com/in/ruben-saldanha-5800561b5/"
   },
   {
     "id": "himansh-ullal",
@@ -69,7 +73,8 @@
     "department": "CIPHER Executive Council",
     "photo": "/assets/images/team/Shamitha_KV.jpg",
     "bio": "Coordinating cultural performances, branch entry galas, and creative showcases.",
-    "category": "executive"
+    "category": "executive",
+    "linkedin": "https://www.linkedin.com/in/shamitha-kv/"
   },
   {
     "id": "parthipan-j",
@@ -78,6 +83,7 @@
     "department": "CIPHER Executive Council",
     "photo": "/assets/images/team/Parthipan_J.jpg",
     "bio": "Directing editorial content, event reports, social media copy, and announcements.",
-    "category": "executive"
+    "category": "executive",
+    "linkedin": "https://www.linkedin.com/in/parthipanj/"
   }
 ]

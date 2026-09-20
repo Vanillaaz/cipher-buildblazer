@@ -21,7 +21,7 @@ export const EventsSection: React.FC = () => {
   return (
     <section
       id="events"
-      className="relative w-full py-16 md:py-24 border-t border-[#00FF66]/10 overflow-hidden"
+      className="relative w-full py-10 md:py-16 border-t border-[#00FF66]/10 scroll-mt-16 overflow-hidden"
     >
       <PageContainer>
         {/* Section Header */}

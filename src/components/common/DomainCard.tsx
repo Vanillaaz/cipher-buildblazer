@@ -40,15 +40,15 @@ export const DomainCard: React.FC<DomainCardProps> = ({ domain, className = '' }
 
   return (
     <div
-      className={`group bg-[#0D1410] border border-[#00FF66]/20 hover:border-[#00FF66]/50 rounded-sm p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,255,102,0.15)] relative overflow-hidden ${className}`}
+      className={`group bg-[#0D1410] border border-[#00FF66]/20 hover:border-[#00FF66]/50 rounded-sm p-4 sm:p-5 flex flex-col justify-between transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,255,102,0.15)] relative overflow-hidden ${className}`}
     >
       {/* Corner Accent Box */}
       <div className="absolute top-0 right-0 w-8 h-8 bg-gradient-to-bl from-[#00FF66]/10 to-transparent pointer-events-none" />
 
       <div>
         {/* Header Metadata Row */}
-        <div className="flex items-center justify-between mb-4">
-          <div className="p-2 bg-[#00FF66]/10 border border-[#00FF66]/30 rounded-xs">
+        <div className="flex items-center justify-between mb-3">
+          <div className="p-1.5 bg-[#00FF66]/10 border border-[#00FF66]/30 rounded-xs">
             {renderIcon(domain.icon)}
           </div>
           <span className="font-mono text-[11px] text-[#00FF66]/70 tracking-widest uppercase">
@@ -57,18 +57,18 @@ export const DomainCard: React.FC<DomainCardProps> = ({ domain, className = '' }
         </div>
 
         {/* Domain Title */}
-        <h3 className="text-white font-sans font-bold text-lg sm:text-xl mb-3 group-hover:text-[#00FF66] transition-colors">
+        <h3 className="text-white font-sans font-bold text-base sm:text-lg mb-2 group-hover:text-[#00FF66] transition-colors">
           {domain.title}
         </h3>
 
         {/* Domain Description */}
-        <p className="text-gray-300 font-sans text-xs sm:text-sm leading-relaxed mb-6 font-normal">
+        <p className="text-gray-300 font-sans text-xs sm:text-sm leading-relaxed mb-4 font-normal">
           {domain.description}
         </p>
       </div>
 
       {/* Highlights Metadata List */}
-      <div className="border-t border-[#00FF66]/10 pt-4 flex flex-wrap gap-2">
+      <div className="border-t border-[#00FF66]/10 pt-3 flex flex-wrap gap-1.5">
         {domain.highlights.map((item, idx) => (
           <span
             key={idx}

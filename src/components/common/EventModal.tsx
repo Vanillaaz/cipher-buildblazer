@@ -53,16 +53,16 @@ export const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
       role="dialog"
       aria-modal="true"
       aria-labelledby="event-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto bg-[#050806]/85 backdrop-blur-md animate-fade-in"
+      className="fixed inset-0 z-[9999] flex items-start justify-center pt-12 sm:pt-16 pb-6 px-4 sm:px-6 overflow-y-auto bg-[#030504]/94 backdrop-blur-xl animate-fade-in cursor-none"
       onClick={onClose}
     >
-      {/* Modal Container */}
+      {/* Modal Container — Spacious & Symmetrical Box Sizing */}
       <div
-        className="relative w-full max-w-4xl bg-[#080C0A] border border-[#00FF66]/40 rounded-xs shadow-[0_0_40px_rgba(0,255,102,0.2)] overflow-hidden flex flex-col max-h-[90vh] my-auto"
+        className="relative w-full max-w-4xl lg:max-w-5xl bg-[#080C0A] border border-[#00FF66]/50 rounded-xs shadow-[0_0_60px_rgba(0,0,0,0.95),0_0_35px_rgba(0,255,102,0.25)] overflow-hidden flex flex-col max-h-[88vh] my-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-5 py-3.5 border-b border-[#00FF66]/20 bg-[#0A100C]">
+        <div className="flex items-center justify-between px-5 py-3 border-b border-[#00FF66]/20 bg-[#0A100C] shrink-0">
           <div className="flex items-center gap-2 font-mono text-xs text-[#00FF66]">
             <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-pulse" />
             <span>CIPHER // ACTIVITIES</span>
@@ -79,11 +79,11 @@ export const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
           </button>
         </div>
 
-        {/* Modal Scrollable Body */}
-        <div className="p-5 sm:p-7 overflow-y-auto space-y-6 text-left">
+        {/* Modal Body */}
+        <div className="p-5 sm:p-6 overflow-y-auto space-y-5 text-left flex-1">
           {/* Top Title & Metadata Bar */}
-          <div className="space-y-2 border-b border-[#00FF66]/15 pb-4">
-            <div className="flex flex-wrap items-center gap-3 font-mono text-xs">
+          <div className="space-y-1.5 border-b border-[#00FF66]/15 pb-3">
+            <div className="flex flex-wrap items-center gap-2.5 font-mono text-xs">
               <span className="text-[#00FF66] font-bold bg-[#00FF66]/10 px-2.5 py-1 rounded-xs border border-[#00FF66]/25">
                 {event.displayDate}
               </span>
@@ -104,11 +104,12 @@ export const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
             </h2>
           </div>
 
-          {/* Main Grid Layout: Gallery & Details */}
+          {/* Symmetrical Grid Layout: Left Column (Gallery + Metadata) & Right Column (About Description) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            {/* Gallery Column */}
-            <div className="lg:col-span-7 space-y-3">
-              <div className="relative aspect-[16/10] bg-[#050806] border border-[#00FF66]/30 rounded-xs overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.8)]">
+            {/* Left Column — Gallery & Shifted Metadata Box (6 cols) */}
+            <div className="lg:col-span-6 space-y-3.5">
+              {/* Main Image Display Frame */}
+              <div className="relative max-h-[260px] sm:max-h-[300px] aspect-[16/10] bg-[#050806] border border-[#00FF66]/30 rounded-xs overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.8)] flex items-center justify-center">
                 <img
                   src={gallery[activeImageIndex]}
                   alt={`${event.title} - View ${activeImageIndex + 1}`}
@@ -118,13 +119,13 @@ export const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                   }}
                 />
 
-                {/* Gallery Navigation Controls (Only visible if >1 image) */}
+                {/* Gallery Navigation Controls */}
                 {hasMultipleImages && (
                   <>
                     <button
                       type="button"
                       onClick={handlePrevImage}
-                      className="absolute left-2 top-1/2 -translate-y-1/2 p-2 bg-black/75 hover:bg-[#00FF66] text-white hover:text-black font-mono text-sm border border-[#00FF66]/40 transition-colors rounded-xs"
+                      className="absolute left-2.5 top-1/2 -translate-y-1/2 p-2 bg-black/75 hover:bg-[#00FF66] text-white hover:text-black font-mono text-xs border border-[#00FF66]/40 transition-colors rounded-xs"
                       aria-label="Previous image"
                     >
                       &larr;
@@ -132,7 +133,7 @@ export const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                     <button
                       type="button"
                       onClick={handleNextImage}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-black/75 hover:bg-[#00FF66] text-white hover:text-black font-mono text-sm border border-[#00FF66]/40 transition-colors rounded-xs"
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 p-2 bg-black/75 hover:bg-[#00FF66] text-white hover:text-black font-mono text-xs border border-[#00FF66]/40 transition-colors rounded-xs"
                       aria-label="Next image"
                     >
                       &rarr;
@@ -141,7 +142,7 @@ export const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                 )}
 
                 {/* Image Counter Badge */}
-                <div className="absolute bottom-2 right-2 font-mono text-[11px] text-[#00FF66] bg-black/80 px-2 py-0.5 border border-[#00FF66]/30 rounded-xs">
+                <div className="absolute bottom-2 right-2 font-mono text-[10px] text-[#00FF66] bg-black/85 px-2 py-0.5 border border-[#00FF66]/30 rounded-xs">
                   {activeImageIndex + 1} / {gallery.length}
                 </div>
               </div>
@@ -154,7 +155,7 @@ export const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                       key={idx}
                       type="button"
                       onClick={() => setActiveImageIndex(idx)}
-                      className={`relative w-16 h-12 rounded-xs overflow-hidden border transition-all ${
+                      className={`relative w-16 h-11 rounded-xs overflow-hidden border transition-all ${
                         idx === activeImageIndex
                           ? 'border-[#00FF66] ring-1 ring-[#00FF66]'
                           : 'border-gray-800 opacity-60 hover:opacity-100'
@@ -165,44 +166,45 @@ export const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                   ))}
                 </div>
               )}
-            </div>
 
-            {/* Event Description Column */}
-            <div className="lg:col-span-5 space-y-4">
-              <div className="bg-[#050806] border border-[#00FF66]/20 p-4 sm:p-5 rounded-xs space-y-3">
-                <span className="font-mono text-xs text-[#00FF66] block font-semibold">// ABOUT THIS EVENT</span>
-                <p className="font-sans text-sm text-gray-200 leading-relaxed font-normal">
-                  {event.description}
-                </p>
-              </div>
-
-              <div className="bg-[#0A100C] border border-[#00FF66]/15 p-4 rounded-xs font-mono text-xs space-y-2 text-gray-300">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">CATEGORY:</span>
-                  <span className="text-[#00FF66]">{event.category}</span>
+              {/* Shifted Metadata Details Box (Category, Date, Host) */}
+              <div className="bg-[#0A100C] border border-[#00FF66]/20 p-4 rounded-xs font-mono text-xs space-y-2 text-gray-300">
+                <div className="flex justify-between items-center border-b border-[#00FF66]/10 pb-1.5">
+                  <span className="text-gray-400">// CATEGORY:</span>
+                  <span className="text-[#00FF66] font-semibold">{event.category}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">DATE:</span>
-                  <span className="text-white">{event.displayDate}</span>
+                <div className="flex justify-between items-center border-b border-[#00FF66]/10 pb-1.5">
+                  <span className="text-gray-400">// DATE:</span>
+                  <span className="text-white font-semibold">{event.displayDate}</span>
                 </div>
                 {event.organizer && (
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">HOST:</span>
-                    <span className="text-gray-200">{event.organizer}</span>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-400">// HOST / ORGANIZER:</span>
+                    <span className="text-gray-200 font-semibold">{event.organizer}</span>
                   </div>
                 )}
+              </div>
+            </div>
+
+            {/* Right Column — Full Description Block (6 cols) */}
+            <div className="lg:col-span-6 space-y-3.5">
+              <div className="bg-[#050806] border border-[#00FF66]/20 p-4 sm:p-5 rounded-xs space-y-3">
+                <span className="font-mono text-xs text-[#00FF66] block font-semibold">// ABOUT THIS EVENT</span>
+                <p className="font-sans text-xs sm:text-sm text-gray-200 leading-relaxed font-normal whitespace-pre-line">
+                  {event.description}
+                </p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Modal Footer Bar */}
-        <div className="px-5 py-3 border-t border-[#00FF66]/20 bg-[#0A100C] flex items-center justify-between font-mono text-xs">
+        <div className="px-5 py-3 border-t border-[#00FF66]/20 bg-[#0A100C] flex items-center justify-between font-mono text-xs shrink-0">
           <span className="text-gray-400">// SJEC CSE ASSOCIATION</span>
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-1.5 text-xs font-semibold uppercase text-black bg-[#00FF66] hover:bg-[#00E65C] rounded-xs transition-colors"
+            className="px-4 py-1 text-xs font-semibold uppercase text-black bg-[#00FF66] hover:bg-[#00E65C] rounded-xs transition-colors"
           >
             CLOSE
           </button>

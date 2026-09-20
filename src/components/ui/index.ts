@@ -7,3 +7,4 @@ export * from './MatrixRainCanvas';
 export * from './DotMatrixWordmark';
 export * from './CipherEmblemLogo';
 export * from './CipherGlyphWordmark';
+export * from './CustomCursor';
