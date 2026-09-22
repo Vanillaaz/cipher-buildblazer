@@ -45,7 +45,7 @@ export const fetchEvents = async (): Promise<EventItem[]> => {
         FROM events
         ORDER BY date DESC
       `;
-      if (rows && rows.length > 0) {
+      if (Array.isArray(rows)) {
         return rows as EventItem[];
       }
     } catch (err) {
@@ -77,7 +77,7 @@ export const fetchTeamMembers = async (): Promise<TeamMember[]> => {
         FROM team_members
         ORDER BY order_index ASC, id ASC
       `;
-      if (rows && rows.length > 0) {
+      if (Array.isArray(rows)) {
         return rows.map((r: any) => ({
           id: r.id,
           name: r.name,

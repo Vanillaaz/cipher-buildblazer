@@ -36,7 +36,7 @@ export const fetchDbEvents = async (): Promise<EventItem[]> => {
         FROM events
         ORDER BY date DESC
       `;
-      if (rows && rows.length > 0) {
+      if (Array.isArray(rows)) {
         return rows as EventItem[];
       }
     } catch (err) {
@@ -53,7 +53,7 @@ export const fetchDbEvents = async (): Promise<EventItem[]> => {
 };
 
 /**
- * SAVE ALL EVENTS TO NEON DB & LOCAL STORAGE
+ * SAVE ALL EVENTS TO NEON DB & LOCAL STORAGE (HANDLES INSERT, UPDATE & DELETE)
  */
 export const saveEventsToDb = async (events: EventItem[]): Promise<boolean> => {
   // Always update LocalStorage
@@ -65,6 +65,15 @@ export const saveEventsToDb = async (events: EventItem[]): Promise<boolean> => {
   if (!sql) return false;
 
   try {
+    // 1. Delete events from DB that were deleted in the Admin UI
+    const currentIds = events.map((e) => e.id);
+    if (currentIds.length > 0) {
+      await sql`DELETE FROM events WHERE NOT (id = ANY(${currentIds}))`;
+    } else {
+      await sql`DELETE FROM events`;
+    }
+
+    // 2. Upsert remaining/updated events into Neon DB
     for (const evt of events) {
       const galleryJson = JSON.stringify(evt.gallery || [evt.image]);
       await sql`
@@ -109,7 +118,7 @@ export const fetchDbTeam = async (): Promise<TeamMember[]> => {
         FROM team_members
         ORDER BY order_index ASC, id ASC
       `;
-      if (rows && rows.length > 0) {
+      if (Array.isArray(rows)) {
         return rows.map((r: any) => ({
           id: r.id,
           name: r.name,
@@ -135,7 +144,7 @@ export const fetchDbTeam = async (): Promise<TeamMember[]> => {
 };
 
 /**
- * SAVE ALL TEAM MEMBERS TO NEON DB & LOCAL STORAGE
+ * SAVE ALL TEAM MEMBERS TO NEON DB & LOCAL STORAGE (HANDLES INSERT, UPDATE & DELETE)
  */
 export const saveTeamToDb = async (team: TeamMember[]): Promise<boolean> => {
   try {
@@ -146,6 +155,15 @@ export const saveTeamToDb = async (team: TeamMember[]): Promise<boolean> => {
   if (!sql) return false;
 
   try {
+    // 1. Delete team members from DB that were deleted in the Admin UI
+    const currentIds = team.map((m) => m.id);
+    if (currentIds.length > 0) {
+      await sql`DELETE FROM team_members WHERE NOT (id = ANY(${currentIds}))`;
+    } else {
+      await sql`DELETE FROM team_members`;
+    }
+
+    // 2. Upsert remaining/updated team members into Neon DB
     for (let i = 0; i < team.length; i++) {
       const m = team[i];
       await sql`
@@ -187,7 +205,7 @@ export const fetchDbApplications = async (): Promise<JoinApplication[]> => {
         FROM join_applications
         ORDER BY submitted_at DESC
       `;
-      if (rows && rows.length > 0) {
+      if (Array.isArray(rows)) {
         return rows as JoinApplication[];
       }
     } catch (err) {
