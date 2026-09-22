@@ -245,5 +245,13 @@ export const DEFAULT_DOMAINS: DomainItem[] = [
     icon: "cpu",
     description: "Connecting academic study with industry expectations via expert technical sessions, cloud platform insights, and AI career pathways.",
     highlights: ["Salesforce Agentforce Sessions", "AI & Cloud Career Pathways", "Industry Expert Dialogues"]
+  },
+  {
+    id: "ai-agentic-workflows",
+    title: "Artificial Intelligence & Agentic Workflows",
+    code: "DOM_05",
+    icon: "terminal",
+    description: "Building autonomous AI agents, prompt engineering pipelines, and LLM orchestration systems.",
+    highlights: ["Autonomous AI Agents", "LLM Orchestration", "Prompt Engineering"]
   }
 ];
