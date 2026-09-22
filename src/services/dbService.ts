@@ -176,7 +176,10 @@ export const fetchDomains = async (): Promise<DomainItem[]> => {
   try {
     const customRaw = localStorage.getItem('cipher_domains_custom');
     if (customRaw) {
-      return JSON.parse(customRaw);
+      const parsed = JSON.parse(customRaw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
     }
   } catch {}
 

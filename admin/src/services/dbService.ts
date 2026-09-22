@@ -254,7 +254,12 @@ export const fetchDbDomains = async (): Promise<DomainItem[]> => {
 
   try {
     const raw = localStorage.getItem('cipher_domains_custom');
-    if (raw) return JSON.parse(raw);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
+    }
   } catch {}
 
   return DEFAULT_DOMAINS as DomainItem[];

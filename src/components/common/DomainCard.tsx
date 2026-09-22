@@ -69,7 +69,7 @@ export const DomainCard: React.FC<DomainCardProps> = ({ domain, className = '' }
 
       {/* Highlights Metadata List */}
       <div className="border-t border-[#00FF66]/10 pt-3 flex flex-wrap gap-1.5">
-        {domain.highlights.map((item, idx) => (
+        {(Array.isArray(domain.highlights) ? domain.highlights : []).map((item, idx) => (
           <span
             key={idx}
             className="font-mono text-[10px] text-gray-400 bg-[#050806] px-2 py-0.5 border border-gray-800 rounded-xs"
