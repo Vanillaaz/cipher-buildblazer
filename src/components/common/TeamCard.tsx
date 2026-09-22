@@ -58,7 +58,7 @@ export const TeamCard: React.FC<TeamCardProps> = ({
               : 'filter grayscale contrast-110 opacity-85 group-hover:grayscale-0 group-hover:opacity-100'
           }`}
           onError={(e) => {
-            (e.target as HTMLElement).style.display = 'none';
+            (e.target as HTMLImageElement).src = '/assets/images/about-photo.jpg';
           }}
         />
 

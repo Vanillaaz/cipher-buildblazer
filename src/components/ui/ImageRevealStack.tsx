@@ -273,7 +273,7 @@ export const ImageRevealStack: React.FC<ImageRevealStackProps> = ({
                 loading="eager"
                 className="w-full h-full object-cover filter contrast-110 brightness-100 transition-all duration-300"
                 onError={(e) => {
-                  (e.target as HTMLElement).style.display = 'none';
+                  (e.target as HTMLImageElement).src = '/assets/images/about-photo.jpg';
                 }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />

@@ -42,7 +42,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event, onSelect }) => {
           loading="lazy"
           className="w-full h-full object-cover filter contrast-[1.05] brightness-90 group-hover:scale-[1.04] group-hover:brightness-100 transition-all duration-500"
           onError={(e) => {
-            (e.target as HTMLElement).style.display = 'none';
+            (e.target as HTMLImageElement).src = '/assets/images/about-photo.jpg';
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#080C0A] via-transparent to-transparent opacity-80" />

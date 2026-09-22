@@ -115,7 +115,7 @@ export const EventModal: React.FC<EventModalProps> = ({ event, onClose }) => {
                   alt={`${event.title} - View ${activeImageIndex + 1}`}
                   className="w-full h-full object-cover filter contrast-[1.05]"
                   onError={(e) => {
-                    (e.target as HTMLElement).style.display = 'none';
+                    (e.target as HTMLImageElement).src = '/assets/images/about-photo.jpg';
                   }}
                 />
 
