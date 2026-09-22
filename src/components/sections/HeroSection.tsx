@@ -32,7 +32,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <PageContainer className="!py-0 flex flex-col items-start text-left">
           {/* Association Title — H1 */}
           <h1 className="text-[#00FF66] font-extrabold text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight max-w-3xl mb-3 leading-[1.15] drop-shadow-[0_0_25px_rgba(0,255,102,0.5)]">
-            Student Association of<br className="hidden sm:inline" />
+            Student Association of{' '}
+            <br className="hidden sm:inline" />
             Computer Science &amp; Engineering
           </h1>
 
