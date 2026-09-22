@@ -12,11 +12,13 @@ import { EventItem, TeamMember, DomainItem } from '../types';
  * Otherwise, falls back to static JSON and LocalStorage safely.
  */
 
-const getDatabaseUrl = (): string | undefined => {
+const DEFAULT_NEON_URL = 'postgresql://neondb_owner:npg_dDhN7Puc5jYM@ep-falling-term-az28w7vu-pooler.c-3.ap-southeast-1.aws.neon.tech/neondb?sslmode=require';
+
+const getDatabaseUrl = (): string => {
   return (
     import.meta.env.VITE_NEON_DATABASE_URL ||
     import.meta.env.DATABASE_URL ||
-    undefined
+    DEFAULT_NEON_URL
   );
 };
 
