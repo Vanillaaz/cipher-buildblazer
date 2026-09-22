@@ -68,9 +68,12 @@ export const JoinFormModal: React.FC<JoinFormModalProps> = ({ isOpen, onClose })
       newErrors.usn = 'Please enter a valid USN or Student ID.';
     }
 
+    const trimmedEmail = formData.email.trim().toLowerCase();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!formData.email.trim() || !emailRegex.test(formData.email.trim())) {
+    if (!trimmedEmail || !emailRegex.test(trimmedEmail)) {
       newErrors.email = 'Please enter a valid email address.';
+    } else if (!trimmedEmail.endsWith('@sjec.ac.in')) {
+      newErrors.email = 'Access restricted: Please enter an official SJEC email address (@sjec.ac.in).';
     }
 
     if (!formData.yearSemester) {

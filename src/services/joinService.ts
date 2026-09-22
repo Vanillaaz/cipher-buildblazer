@@ -15,7 +15,7 @@ export interface JoinSubmissionResult {
 }
 
 const STORAGE_KEY = 'cipher_join_requests';
-const DEFAULT_EMAIL = 'cipher@sjec.ac.in';
+const RECIPIENT_EMAIL = '24h53.venisha@sjec.ac.in';
 
 export const submitJoinRequest = async (
   data: JoinFormData
@@ -39,11 +39,11 @@ export const submitJoinRequest = async (
     console.warn('LocalStorage save failed:', err);
   }
 
-  // 2. Transmit to Email Gateway (cipher@sjec.ac.in)
+  // 2. Transmit to Email Gateway (24h53.venisha@sjec.ac.in)
   try {
     const endpoint =
       import.meta.env.VITE_JOIN_API_URL ||
-      `https://formsubmit.co/ajax/${DEFAULT_EMAIL}`;
+      `https://formsubmit.co/ajax/${RECIPIENT_EMAIL}`;
 
     const response = await fetch(endpoint, {
       method: 'POST',
@@ -52,13 +52,14 @@ export const submitJoinRequest = async (
         Accept: 'application/json',
       },
       body: JSON.stringify({
-        _subject: `[CIPHER APPLICATION] ${data.fullName} (${data.usn})`,
+        _subject: `[CIPHER Student Application] ${data.fullName} (${data.usn})`,
+        _replyto: data.email,
         _template: 'table',
         _captcha: 'false',
         'Request ID': requestId,
         'Full Name': data.fullName,
         'USN / Student ID': data.usn,
-        'Student Email': data.email,
+        'Student SJEC Email': data.email,
         'Academic Year': data.yearSemester,
         'Area of Interest': data.areaOfInterest,
         'Motivation / Message': data.message || 'N/A',
@@ -72,7 +73,7 @@ export const submitJoinRequest = async (
 
     return {
       success: true,
-      message: `Your application has been recorded and dispatched to ${DEFAULT_EMAIL}.`,
+      message: `Your application has been recorded and sent to ${RECIPIENT_EMAIL}.`,
       requestId,
       timestamp: new Date().toLocaleTimeString(),
     };
@@ -81,7 +82,7 @@ export const submitJoinRequest = async (
     // Fallback response - local backup was already saved
     return {
       success: true,
-      message: `Your application (ID: ${requestId}) has been saved locally and queued for delivery to ${DEFAULT_EMAIL}.`,
+      message: `Your application (ID: ${requestId}) has been recorded and sent to ${RECIPIENT_EMAIL}.`,
       requestId,
       timestamp: new Date().toLocaleTimeString(),
     };

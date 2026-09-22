@@ -7,6 +7,9 @@ import { TeamMember } from '../../types';
 
 export const TeamSection: React.FC = () => {
   const teamMembers: TeamMember[] = teamData as TeamMember[];
+  // Duplicated array for seamless infinite continuous linear sliding ticker
+  const duplicatedMembers: TeamMember[] = [...teamMembers, ...teamMembers];
+
   const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
   const [isPaused, setIsPaused] = useState(false);
   const trackRef = useRef<HTMLDivElement | null>(null);
@@ -28,23 +31,26 @@ export const TeamSection: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Automatic Smooth Sliding Loop
+  // Continuous Smooth Linear Sliding Animation Loop (RAF)
   useEffect(() => {
-    if (isPaused || selectedMemberId !== null) return;
+    let animationFrameId: number;
 
-    const interval = setInterval(() => {
-      if (!trackRef.current) return;
-      const track = trackRef.current;
-      const maxScroll = track.scrollWidth - track.clientWidth;
+    const step = () => {
+      if (trackRef.current && !isPaused && selectedMemberId === null) {
+        const track = trackRef.current;
+        const singleSetWidth = track.scrollWidth / 2;
 
-      if (track.scrollLeft >= maxScroll - 15) {
-        track.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        track.scrollBy({ left: 284, behavior: 'smooth' });
+        track.scrollLeft += 0.8; // Smooth pixel drift per frame
+
+        if (track.scrollLeft >= singleSetWidth) {
+          track.scrollLeft -= singleSetWidth; // Seamless infinite loop wrap
+        }
       }
-    }, 2800);
+      animationFrameId = requestAnimationFrame(step);
+    };
 
-    return () => clearInterval(interval);
+    animationFrameId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(animationFrameId);
   }, [isPaused, selectedMemberId]);
 
   return (
@@ -93,7 +99,7 @@ export const TeamSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Horizontal Auto-Scroll Gallery Track (Scrollbar Removed) */}
+        {/* Horizontal Continuous Auto-Scroll Gallery Track (Scrollbar Hidden) */}
         <div className="relative w-full py-4">
           <div
             ref={trackRef}
@@ -101,13 +107,13 @@ export const TeamSection: React.FC = () => {
             onMouseLeave={() => setIsPaused(false)}
             onTouchStart={() => setIsPaused(true)}
             onTouchEnd={() => setIsPaused(false)}
-            className="flex gap-6 overflow-x-auto no-scrollbar [ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden py-6 px-2 snap-x snap-mandatory focus-visible:outline-none"
+            className="flex gap-6 overflow-x-auto no-scrollbar [ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden py-6 px-2 focus-visible:outline-none select-none"
             tabIndex={0}
-            aria-label="Team members horizontal gallery track"
+            aria-label="Team members horizontal continuous gallery track"
           >
-            {teamMembers.map((member) => (
+            {duplicatedMembers.map((member, index) => (
               <TeamCard
-                key={member.id}
+                key={`${member.id}-${index}`}
                 member={member}
                 isSelected={selectedMemberId === member.id}
                 isAnySelected={selectedMemberId !== null}
