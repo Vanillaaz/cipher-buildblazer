@@ -1,6 +1,6 @@
 import { neon } from '@neondatabase/serverless';
-import { EventItem, TeamMember, JoinApplication } from '../types';
-import { DEFAULT_EVENTS, DEFAULT_TEAM } from '../data/defaultData';
+import { EventItem, TeamMember, DomainItem, JoinApplication } from '../types';
+import { DEFAULT_EVENTS, DEFAULT_TEAM, DEFAULT_DOMAINS } from '../data/defaultData';
 
 const getDatabaseUrl = (): string | undefined => {
   return (
@@ -220,3 +220,77 @@ export const fetchDbApplications = async (): Promise<JoinApplication[]> => {
 
   return [];
 };
+
+/**
+ * FETCH DOMAINS FROM NEON DB OR LOCAL STORAGE
+ */
+export const fetchDbDomains = async (): Promise<DomainItem[]> => {
+  const sql = getDbSql();
+  if (sql) {
+    try {
+      const rows = await sql`
+        SELECT id, title, code, icon, description, highlights, order_index
+        FROM domains
+        ORDER BY order_index ASC, id ASC
+      `;
+      if (Array.isArray(rows)) {
+        return rows as DomainItem[];
+      }
+    } catch (err) {
+      console.warn('[Admin Neon DB] Query domains fallback:', err);
+    }
+  }
+
+  try {
+    const raw = localStorage.getItem('cipher_domains_custom');
+    if (raw) return JSON.parse(raw);
+  } catch {}
+
+  return DEFAULT_DOMAINS as DomainItem[];
+};
+
+/**
+ * SAVE ALL DOMAINS TO NEON DB & LOCAL STORAGE (HANDLES INSERT, UPDATE & DELETE)
+ */
+export const saveDomainsToDb = async (domains: DomainItem[]): Promise<boolean> => {
+  try {
+    localStorage.setItem('cipher_domains_custom', JSON.stringify(domains));
+  } catch {}
+
+  const sql = getDbSql();
+  if (!sql) return false;
+
+  try {
+    const currentIds = domains.map((d) => d.id);
+    if (currentIds.length > 0) {
+      await sql`DELETE FROM domains WHERE NOT (id = ANY(${currentIds}))`;
+    } else {
+      await sql`DELETE FROM domains`;
+    }
+
+    for (let i = 0; i < domains.length; i++) {
+      const d = domains[i];
+      const highlightsJson = JSON.stringify(d.highlights || []);
+      await sql`
+        INSERT INTO domains (
+          id, title, code, icon, description, highlights, order_index
+        ) VALUES (
+          ${d.id}, ${d.title}, ${d.code}, ${d.icon}, ${d.description},
+          ${highlightsJson}::jsonb, ${i + 1}
+        )
+        ON CONFLICT (id) DO UPDATE SET
+          title = EXCLUDED.title,
+          code = EXCLUDED.code,
+          icon = EXCLUDED.icon,
+          description = EXCLUDED.description,
+          highlights = EXCLUDED.highlights,
+          order_index = EXCLUDED.order_index
+      `;
+    }
+    return true;
+  } catch (err) {
+    console.error('[Admin Neon DB] Failed to save domains:', err);
+    return false;
+  }
+};
+

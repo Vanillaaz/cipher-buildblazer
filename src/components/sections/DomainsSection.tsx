@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { PageContainer } from '../layout/PageContainer';
 import { SectionHeading } from '../common/SectionHeading';
 import { DomainCard } from '../common/DomainCard';
 import domainsData from '../../data/domains.json';
 import { DomainItem } from '../../types';
+import { fetchDomains } from '../../services/dbService';
 
 export const DomainsSection: React.FC = () => {
-  const domains: DomainItem[] = domainsData as DomainItem[];
+  const [domains, setDomains] = useState<DomainItem[]>(domainsData as DomainItem[]);
+
+  useEffect(() => {
+    fetchDomains().then(setDomains);
+  }, []);
 
   return (
     <section id="domains" className="relative w-full min-h-[calc(100vh-3.5rem)] flex flex-col justify-center py-6 md:py-8 border-t border-[#00FF66]/10 scroll-mt-14 md:scroll-mt-16">

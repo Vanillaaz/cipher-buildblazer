@@ -1,7 +1,8 @@
 import { neon } from '@neondatabase/serverless';
 import eventsData from '../data/events.json';
 import teamData from '../data/team.json';
-import { EventItem, TeamMember } from '../types';
+import domainsData from '../data/domains.json';
+import { EventItem, TeamMember, DomainItem } from '../types';
 
 /**
  * Neon Postgres Client & Fallback Engine
@@ -139,3 +140,35 @@ export const saveJoinApplicationToDb = async (app: {
     return false;
   }
 };
+
+/**
+ * Fetch Domains from Neon DB or Static JSON Fallback
+ */
+export const fetchDomains = async (): Promise<DomainItem[]> => {
+  const sql = getDbSql();
+  if (sql) {
+    try {
+      const rows = await sql`
+        SELECT id, title, code, icon, description, highlights, order_index
+        FROM domains
+        ORDER BY order_index ASC, id ASC
+      `;
+      if (Array.isArray(rows)) {
+        return rows as DomainItem[];
+      }
+    } catch (err) {
+      console.warn('[Neon DB] Domains query fallback to local static data:', err);
+    }
+  }
+
+  // Fallback to local custom storage or domains.json static asset
+  try {
+    const customRaw = localStorage.getItem('cipher_domains_custom');
+    if (customRaw) {
+      return JSON.parse(customRaw);
+    }
+  } catch {}
+
+  return domainsData as DomainItem[];
+};
+

@@ -26,6 +26,8 @@ import {
   saveEventsToDb,
   fetchDbTeam,
   saveTeamToDb,
+  fetchDbDomains,
+  saveDomainsToDb,
   fetchDbApplications,
 } from './services/dbService';
 
@@ -46,7 +48,7 @@ export function App() {
     // Fetch asynchronously from Neon DB / LocalStorage
     fetchDbEvents().then(setEvents);
     fetchDbTeam().then(setTeam);
-    setDomains(getAdminDomains());
+    fetchDbDomains().then(setDomains);
     fetchDbApplications().then(setApplications);
   }, []);
 
@@ -74,6 +76,7 @@ export function App() {
   const handleSaveDomains = (updated: DomainItem[]) => {
     setDomains(updated);
     saveAdminDomains(updated);
+    saveDomainsToDb(updated);
   };
 
   const handleDeleteApp = (id: string) => {
