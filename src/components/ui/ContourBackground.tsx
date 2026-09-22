@@ -1,82 +1,16 @@
 import React, { useRef, useEffect } from 'react';
 
 /**
- * AnimatedContourBackground
- * ─────────────────────────
- * Canvas 2D topographic-contour field that animates continuously.
- *
- * Architecture:
- *   • All lines share one procedural displacement field evaluated per-pixel.
- *   • The field is composed of three scales of sin/cos waves + 5 warp regions.
- *   • Neighboring lines differ only by their base-x position → they respond to
- *     the same field → produce correlated bunching/spreading (topographic feel).
- *   • Zero React state updates during animation; everything lives in refs.
- *   • RAF loop runs at native 60 fps; canvas is resized only on resize events.
- *   • Reduced-motion: field is rendered once, static (no RAF loop).
+ * AnimatedContourBackground (3D Perspective Terrain Engine)
+ * ──────────────────────────────────────────────────────────
+ * Renders a 3D wireframe topographic landscape with depth perspective,
+ * atmospheric horizon fog, and fast fluid wave dynamics.
  */
 
 export interface ContourBackgroundProps {
   opacity?: number;
   className?: string;
 }
-
-// ── Warp region descriptors ──────────────────────────────────────────────────
-// cx/cy: normalised 0-1 screen position of the warp centre
-// sigma: normalised influence radius
-// amp:   max horizontal push in normalised screen-width units
-// speed: oscillation speed (radians/second)
-// phase: initial phase offset
-// ────────────────────────────────────────────────────────────────────────────
-const WARP: { cx: number; cy: number; sigma: number; amp: number; speed: number; phase: number }[] = [
-  { cx: 0.20, cy: 0.20, sigma: 0.22, amp: 0.045, speed: 0.055, phase: 0.00 },
-  { cx: 0.72, cy: 0.15, sigma: 0.20, amp: 0.055, speed: 0.042, phase: 1.57 },
-  { cx: 0.45, cy: 0.52, sigma: 0.28, amp: 0.060, speed: 0.048, phase: 3.14 },
-  { cx: 0.14, cy: 0.74, sigma: 0.22, amp: 0.040, speed: 0.063, phase: 4.71 },
-  { cx: 0.82, cy: 0.67, sigma: 0.20, amp: 0.050, speed: 0.040, phase: 2.09 },
-];
-
-// ── Per-line opacity from golden-ratio hash — deterministic, no flicker ──────
-const lineAlpha = (i: number) =>
-  0.22 + (Math.sin(i * 1.6180339887 + 1.0) * 0.5 + 0.5) * 0.24; // 0.22 – 0.46
-
-// ── Core displacement field ──────────────────────────────────────────────────
-// Returns the ABSOLUTE x-position (px) of line `nx` at height `ny` and time `t`.
-// nx = normalised line index (0-1), ny = normalised y (0-1), t = seconds.
-// W  = canvas CSS width (px)
-// ─────────────────────────────────────────────────────────────────────────────
-const fieldX = (nx: number, ny: number, t: number, W: number): number => {
-  const baseX = nx * W;
-
-  // ── Large scale (broad, very slow) ─────────────────────────────────────────
-  const L =
-    Math.sin(ny * Math.PI * 1.30 + t * 0.055 + nx * 1.10) * W * 0.060 +
-    Math.sin(ny * Math.PI * 2.05 - t * 0.038 + nx * 0.70) * W * 0.038;
-
-  // ── Medium scale (gentle bends) ─────────────────────────────────────────────
-  const M =
-    Math.cos(ny * Math.PI * 3.80 + t * 0.080 + nx * 2.20) * W * 0.020 +
-    Math.sin(ny * Math.PI * 5.10 - t * 0.062 - nx * 1.50) * W * 0.013;
-
-  // ── Small scale (subtle local texture) ──────────────────────────────────────
-  const S = Math.cos(ny * Math.PI * 8.60 + t * 0.045 + nx * 3.80) * W * 0.005;
-
-  // ── Warp regions (terrain features) ──────────────────────────────────────────
-  let warpTotal = 0;
-  for (const r of WARP) {
-    const dx = nx - r.cx;
-    const dy = ny - r.cy;
-    const dist2 = dx * dx + dy * dy;
-    const sig2  = r.sigma * r.sigma;
-    // Gaussian falloff — smooth, no visible boundary
-    const g = Math.exp(-dist2 / (2 * sig2));
-    // Oscillating push — creates the "breathing terrain" feel
-    warpTotal += g * r.amp * W * Math.sin(t * r.speed + r.phase);
-  }
-
-  return baseX + L + M + S + warpTotal;
-};
-
-// ─────────────────────────────────────────────────────────────────────────────
 
 export const ContourBackground: React.FC<ContourBackgroundProps> = ({
   opacity = 1,
@@ -86,66 +20,137 @@ export const ContourBackground: React.FC<ContourBackgroundProps> = ({
 
   useEffect(() => {
     const canvas = canvasRef.current!;
-    const ctx    = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d')!;
 
-    // ── Mutable state (refs, not React state) ─────────────────────────────────
-    let W = 0, H = 0, dpr = 1;
-    let lineCount = 100;
-    let yStep     = 7;       // px between sample points along each line
-    let rafId     = 0;
+    let W = 0;
+    let H = 0;
+    let dpr = 1;
+    let rafId = 0;
     let startTime = 0;
 
     const prefersReducedMotion =
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // ── Resize handler ────────────────────────────────────────────────────────
     const resize = () => {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
-      W   = window.innerWidth;
-      H   = window.innerHeight;
+      W = window.innerWidth;
+      H = window.innerHeight;
 
-      canvas.width        = Math.round(W * dpr);
-      canvas.height       = Math.round(H * dpr);
-      canvas.style.width  = `${W}px`;
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+      canvas.style.width = `${W}px`;
       canvas.style.height = `${H}px`;
-
-      // Responsive density
-      if (W >= 1280) { lineCount = 105; yStep = 7; }
-      else if (W >= 1024) { lineCount = 88;  yStep = 7; }
-      else if (W >= 768)  { lineCount = 65;  yStep = 8; }
-      else                { lineCount = 44;  yStep = 9; }
     };
 
     resize();
     window.addEventListener('resize', resize, { passive: true });
 
-    // ── Main draw loop ────────────────────────────────────────────────────────
+    // ── 3D Terrain Wave Generator ───────────────────────────────────────────
+    const getTerrainHeight = (x: number, z: number, t: number): number => {
+      // Fast multi-frequency 3D wave harmonics
+      const wave1 = Math.sin(x * 0.0035 + t * 2.2) * Math.cos(z * 0.0028 + t * 1.6) * 95;
+      const wave2 = Math.sin(x * 0.0070 - t * 2.8 + z * 0.004) * 45;
+      const wave3 = Math.cos(x * 0.0020 + z * 0.0060 - t * 1.9) * 55;
+      const peakWarp = Math.sin((x + z) * 0.0018 + t * 1.4) * 35;
+
+      return wave1 + wave2 + wave3 + peakWarp;
+    };
+
+    // ── Main 3D Render Loop ─────────────────────────────────────────────────
     const draw = (ts: number) => {
       if (startTime === 0) startTime = ts;
-      const t = prefersReducedMotion ? 0 : (ts - startTime) * 0.001; // seconds
+      // Faster time scaling for dynamic fluid motion
+      const t = prefersReducedMotion ? 0 : (ts - startTime) * 0.0018;
 
-      // Map VB → physical pixels via DPR transform
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
 
-      // Draw each contour line
-      for (let i = 0; i < lineCount; i++) {
-        const nx = i / (lineCount - 1); // normalised 0 → 1
+      // Camera & 3D Perspective Setup
+      const fov = 420;
+      const cameraY = H * 0.52;
+      const horizonY = H * 0.42;
+      const centerX = W * 0.5;
 
-        ctx.globalAlpha = lineAlpha(i);
-        ctx.strokeStyle = '#00FF66';
-        // Index contours (every 10th) are slightly thicker — topographic convention
-        ctx.lineWidth = i % 10 === 0 ? 1.0 : 0.75;
+      // 3D Grid Parameters
+      const numRows = W >= 1024 ? 65 : 45;
+      const numCols = W >= 1024 ? 85 : 55;
+      const zNear = 80;
+      const zFar = 1350;
+      const zStep = (zFar - zNear) / numRows;
+      const xSpan = W * 2.2;
+      const xStep = xSpan / numCols;
+
+      // 1. Draw Horizon Ambient Glow (Atmospheric Matrix Fog)
+      const fogGradient = ctx.createLinearGradient(0, horizonY - 60, 0, horizonY + 120);
+      fogGradient.addColorStop(0, 'rgba(0, 255, 102, 0)');
+      fogGradient.addColorStop(0.5, 'rgba(0, 255, 102, 0.06)');
+      fogGradient.addColorStop(1, 'rgba(0, 255, 102, 0)');
+      ctx.fillStyle = fogGradient;
+      ctx.fillRect(0, horizonY - 60, W, 180);
+
+      // 2. Render 3D Perspective Contour Lines (Back to Front for Depth)
+      for (let r = numRows - 1; r >= 0; r--) {
+        const worldZ = zNear + r * zStep;
+        const scale = fov / (worldZ + fov);
+
+        // Distance alpha fading (Atmospheric Z-depth fog)
+        const depthRatio = 1 - r / numRows; // 1 near camera, 0 far away
+        const lineAlpha = Math.pow(depthRatio, 1.4) * 0.42 + 0.04;
+        const isMajorIndex = r % 6 === 0;
 
         ctx.beginPath();
+        ctx.strokeStyle = '#00FF66';
+        ctx.globalAlpha = isMajorIndex ? Math.min(lineAlpha * 1.5, 0.75) : lineAlpha;
+        ctx.lineWidth = isMajorIndex ? 1.25 : 0.75;
+
         let first = true;
 
-        for (let y = 0; y <= H; y += yStep) {
-          const ny = y / H;
-          const x  = fieldX(nx, ny, t, W);
+        for (let c = 0; c <= numCols; c++) {
+          const worldX = -xSpan * 0.5 + c * xStep;
+          const heightOffset = getTerrainHeight(worldX, worldZ, t);
 
-          if (first) { ctx.moveTo(x, y); first = false; }
-          else        { ctx.lineTo(x, y); }
+          // 3D Perspective Projection
+          const screenX = centerX + worldX * scale;
+          const screenY = horizonY + (cameraY - horizonY) * scale - heightOffset * scale;
+
+          if (first) {
+            ctx.moveTo(screenX, screenY);
+            first = false;
+          } else {
+            ctx.lineTo(screenX, screenY);
+          }
+        }
+
+        ctx.stroke();
+      }
+
+      // 3. Render Longitudinal Perspective Rays (Cross 3D Mesh Ribs)
+      const numRays = W >= 1024 ? 36 : 22;
+      const rayStep = xSpan / numRays;
+
+      for (let c = 0; c <= numRays; c++) {
+        const worldX = -xSpan * 0.5 + c * rayStep;
+        ctx.beginPath();
+        ctx.strokeStyle = '#00FF66';
+        ctx.globalAlpha = 0.12;
+        ctx.lineWidth = 0.6;
+
+        let first = true;
+
+        for (let r = numRows - 1; r >= 0; r += -2) {
+          const worldZ = zNear + r * zStep;
+          const scale = fov / (worldZ + fov);
+          const heightOffset = getTerrainHeight(worldX, worldZ, t);
+
+          const screenX = centerX + worldX * scale;
+          const screenY = horizonY + (cameraY - horizonY) * scale - heightOffset * scale;
+
+          if (first) {
+            ctx.moveTo(screenX, screenY);
+            first = false;
+          } else {
+            ctx.lineTo(screenX, screenY);
+          }
         }
 
         ctx.stroke();
@@ -175,3 +180,4 @@ export const ContourBackground: React.FC<ContourBackgroundProps> = ({
     />
   );
 };
+
