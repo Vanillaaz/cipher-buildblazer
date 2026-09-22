@@ -11,6 +11,11 @@ node_modules
 dist
 dist-ssr
 *.local
+.vite
+
+# Admin build outputs
+admin/dist
+admin/node_modules
 
 # Editor directories and files
 .vscode/*
@@ -20,5 +25,5 @@ dist-ssr
 *.suo
 *.ntvs*
 *.njsproj
-*.sln
+.sln
 *.sw?
