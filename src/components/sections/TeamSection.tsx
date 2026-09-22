@@ -4,9 +4,15 @@ import { TechnicalSectionHeading } from '../common/TechnicalSectionHeading';
 import { TeamCard } from '../common/TeamCard';
 import teamData from '../../data/team.json';
 import { TeamMember } from '../../types';
+import { fetchTeamMembers } from '../../services/dbService';
 
 export const TeamSection: React.FC = () => {
-  const teamMembers: TeamMember[] = teamData as TeamMember[];
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>(teamData as TeamMember[]);
+
+  useEffect(() => {
+    fetchTeamMembers().then(setTeamMembers);
+  }, []);
+
   // Duplicated array for seamless infinite continuous linear sliding ticker
   const duplicatedMembers: TeamMember[] = [...teamMembers, ...teamMembers];
 

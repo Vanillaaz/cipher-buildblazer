@@ -21,6 +21,14 @@ import { TeamManager } from './components/TeamManager';
 import { DomainsManager } from './components/DomainsManager';
 import { ApplicationsViewer } from './components/ApplicationsViewer';
 
+import {
+  fetchDbEvents,
+  saveEventsToDb,
+  fetchDbTeam,
+  saveTeamToDb,
+  fetchDbApplications,
+} from './services/dbService';
+
 export function App() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'events' | 'team' | 'domains' | 'applications'>('overview');
@@ -31,13 +39,15 @@ export function App() {
   const [domains, setDomains] = useState<DomainItem[]>([]);
   const [applications, setApplications] = useState<JoinApplication[]>([]);
 
-  // Load datasets on init
+  // Load datasets on init (Neon DB + Fallback)
   useEffect(() => {
     setIsAuthenticated(checkAuthSession());
-    setEvents(getAdminEvents());
-    setTeam(getAdminTeam());
+
+    // Fetch asynchronously from Neon DB / LocalStorage
+    fetchDbEvents().then(setEvents);
+    fetchDbTeam().then(setTeam);
     setDomains(getAdminDomains());
-    setApplications(getJoinApplications());
+    fetchDbApplications().then(setApplications);
   }, []);
 
   const handleLoginSuccess = () => {
@@ -52,11 +62,13 @@ export function App() {
   const handleSaveEvents = (updated: EventItem[]) => {
     setEvents(updated);
     saveAdminEvents(updated);
+    saveEventsToDb(updated);
   };
 
   const handleSaveTeam = (updated: TeamMember[]) => {
     setTeam(updated);
     saveAdminTeam(updated);
+    saveTeamToDb(updated);
   };
 
   const handleSaveDomains = (updated: DomainItem[]) => {

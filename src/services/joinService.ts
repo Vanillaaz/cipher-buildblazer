@@ -17,6 +17,8 @@ export interface JoinSubmissionResult {
 const STORAGE_KEY = 'cipher_join_requests';
 const RECIPIENT_EMAIL = '24h53.venisha@sjec.ac.in';
 
+import { saveJoinApplicationToDb } from './dbService';
+
 export const submitJoinRequest = async (
   data: JoinFormData
 ): Promise<JoinSubmissionResult> => {
@@ -29,7 +31,12 @@ export const submitJoinRequest = async (
     submittedAt: timestamp,
   };
 
-  // 1. Store in LocalStorage as local backup
+  // 1. Store in Neon Postgres Database (if connected)
+  saveJoinApplicationToDb(newRecord).catch((err) => {
+    console.warn('Neon DB save error:', err);
+  });
+
+  // 2. Store in LocalStorage as local backup
   try {
     const existingRaw = localStorage.getItem(STORAGE_KEY);
     const existingList = existingRaw ? JSON.parse(existingRaw) : [];

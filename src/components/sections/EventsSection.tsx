@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PageContainer } from '../layout/PageContainer';
 import { SectionHeading } from '../common/SectionHeading';
 import { EventCard } from '../common/EventCard';
 import { EventModal } from '../common/EventModal';
 import { EventItem } from '../../types/event';
 import eventsData from '../../data/events.json';
+import { fetchEvents } from '../../services/dbService';
 
 export const EventsSection: React.FC = () => {
-  const events: EventItem[] = eventsData as EventItem[];
+  const [events, setEvents] = useState<EventItem[]>(eventsData as EventItem[]);
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>('ALL');
+
+  useEffect(() => {
+    fetchEvents().then(setEvents);
+  }, []);
 
   const categories = ['ALL', ...Array.from(new Set(events.map((e) => e.category.toUpperCase())))];
 
