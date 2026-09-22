@@ -13,7 +13,19 @@ export const EventsSection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('ALL');
 
   useEffect(() => {
-    fetchEvents().then(setEvents);
+    const loadEvents = () => {
+      fetchEvents().then(setEvents);
+    };
+
+    loadEvents();
+
+    window.addEventListener('focus', loadEvents);
+    window.addEventListener('storage', loadEvents);
+
+    return () => {
+      window.removeEventListener('focus', loadEvents);
+      window.removeEventListener('storage', loadEvents);
+    };
   }, []);
 
   const categories = ['ALL', ...Array.from(new Set(events.map((e) => e.category.toUpperCase())))];

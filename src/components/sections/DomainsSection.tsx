@@ -10,7 +10,19 @@ export const DomainsSection: React.FC = () => {
   const [domains, setDomains] = useState<DomainItem[]>(domainsData as DomainItem[]);
 
   useEffect(() => {
-    fetchDomains().then(setDomains);
+    const loadDomains = () => {
+      fetchDomains().then(setDomains);
+    };
+
+    loadDomains();
+
+    window.addEventListener('focus', loadDomains);
+    window.addEventListener('storage', loadDomains);
+
+    return () => {
+      window.removeEventListener('focus', loadDomains);
+      window.removeEventListener('storage', loadDomains);
+    };
   }, []);
 
   return (

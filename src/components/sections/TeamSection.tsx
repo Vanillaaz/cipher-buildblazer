@@ -10,7 +10,19 @@ export const TeamSection: React.FC = () => {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>(teamData as TeamMember[]);
 
   useEffect(() => {
-    fetchTeamMembers().then(setTeamMembers);
+    const loadTeam = () => {
+      fetchTeamMembers().then(setTeamMembers);
+    };
+
+    loadTeam();
+
+    window.addEventListener('focus', loadTeam);
+    window.addEventListener('storage', loadTeam);
+
+    return () => {
+      window.removeEventListener('focus', loadTeam);
+      window.removeEventListener('storage', loadTeam);
+    };
   }, []);
 
   // Duplicated array for seamless infinite continuous linear sliding ticker
