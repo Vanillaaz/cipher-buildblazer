@@ -304,14 +304,28 @@ export const CipherGlyphWordmark: React.FC<CipherGlyphWordmarkProps> = ({
       st.rafId = requestAnimationFrame(tick);
     };
 
-    // Build grid and start loop after fonts are loaded
-    document.fonts.ready.then(() => {
+    // Ensure Pirata One is loaded before building grid, and rebuild if fonts finish loading later
+    const initFontGrid = async () => {
+      try {
+        await document.fonts.load('900 255px "Pirata One"');
+      } catch (err) {
+        await document.fonts.ready;
+      }
       buildGrid();
       st.rafId = requestAnimationFrame(tick);
-    });
+    };
+
+    initFontGrid();
+
+    const handleFontsLoaded = () => {
+      buildGrid();
+    };
+
+    document.fonts.addEventListener('loadingdone', handleFontsLoaded);
 
     return () => {
       cancelAnimationFrame(st.rafId);
+      document.fonts.removeEventListener('loadingdone', handleFontsLoaded);
       ro.disconnect();
     };
   }, []);
