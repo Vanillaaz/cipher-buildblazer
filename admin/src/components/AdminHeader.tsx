@@ -6,6 +6,9 @@ export interface AdminHeaderProps {
   setActiveTab: (tab: 'overview' | 'events' | 'team' | 'domains' | 'applications') => void;
   onLogout: () => void;
   onExportMasterJSON: () => void;
+  eventsCount: number;
+  teamCount: number;
+  domainsCount: number;
   applicationsCount: number;
 }
 
@@ -14,6 +17,9 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
   setActiveTab,
   onLogout,
   onExportMasterJSON,
+  eventsCount,
+  teamCount,
+  domainsCount,
   applicationsCount,
 }) => {
   const handleLogoutClick = () => {
@@ -23,9 +29,9 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
 
   const navTabs: { id: 'overview' | 'events' | 'team' | 'domains' | 'applications'; label: string; badge?: number }[] = [
     { id: 'overview', label: 'OVERVIEW' },
-    { id: 'events', label: 'EVENTS (6)' },
-    { id: 'team', label: 'TEAM (9)' },
-    { id: 'domains', label: 'DOMAINS (4)' },
+    { id: 'events', label: `EVENTS (${eventsCount})` },
+    { id: 'team', label: `TEAM (${teamCount})` },
+    { id: 'domains', label: `DOMAINS (${domainsCount})` },
     { id: 'applications', label: 'JOIN APPLICATIONS', badge: applicationsCount },
   ];
 

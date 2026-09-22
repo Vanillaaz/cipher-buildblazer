@@ -102,6 +102,9 @@ export function App() {
         setActiveTab={setActiveTab}
         onLogout={handleLogout}
         onExportMasterJSON={handleExportMasterJSON}
+        eventsCount={events.length}
+        teamCount={team.length}
+        domainsCount={domains.length}
         applicationsCount={applications.length}
       />
 
