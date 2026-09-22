@@ -15,6 +15,91 @@ export const EventsManager: React.FC<EventsManagerProps> = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingEvent, setEditingEvent] = useState<EventItem | null>(null);
+  const [newGalleryUrl, setNewGalleryUrl] = useState('');
+
+  // Handle Cover Local File Upload
+  const handleCoverUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      const dataUrl = evt.target?.result as string;
+      if (dataUrl) {
+        setFormData((prev) => {
+          const currentGallery = Array.isArray(prev.gallery) ? prev.gallery : [];
+          return {
+            ...prev,
+            image: dataUrl,
+            gallery: currentGallery.includes(dataUrl) ? currentGallery : [dataUrl, ...currentGallery],
+          };
+        });
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // Handle Gallery Files Upload (Multiple)
+  const handleGalleryUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    Array.from(files).forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        const dataUrl = evt.target?.result as string;
+        if (dataUrl) {
+          setFormData((prev) => {
+            const currentGallery = Array.isArray(prev.gallery) ? prev.gallery : [];
+            return {
+              ...prev,
+              gallery: [...currentGallery, dataUrl],
+              image: prev.image || dataUrl,
+            };
+          });
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  // Insert Image URL to Gallery
+  const handleAddGalleryUrl = () => {
+    if (!newGalleryUrl.trim()) return;
+    const url = newGalleryUrl.trim();
+    setFormData((prev) => {
+      const currentGallery = Array.isArray(prev.gallery) ? prev.gallery : [];
+      return {
+        ...prev,
+        gallery: [...currentGallery, url],
+        image: prev.image || url,
+      };
+    });
+    setNewGalleryUrl('');
+  };
+
+  // Delete Image from Gallery
+  const handleDeleteGalleryImage = (indexToDelete: number) => {
+    setFormData((prev) => {
+      const currentGallery = Array.isArray(prev.gallery) ? prev.gallery : [];
+      const imageToDelete = currentGallery[indexToDelete];
+      const updatedGallery = currentGallery.filter((_, idx) => idx !== indexToDelete);
+
+      const newCover = prev.image === imageToDelete
+        ? (updatedGallery[0] || '')
+        : prev.image;
+
+      return {
+        ...prev,
+        gallery: updatedGallery,
+        image: newCover,
+      };
+    });
+  };
+
+  // Set Image as Primary Cover
+  const handleSetAsCover = (url: string) => {
+    setFormData((prev) => ({ ...prev, image: url }));
+  };
 
   // Form State
   const [formData, setFormData] = useState<Partial<EventItem>>({
@@ -293,16 +378,144 @@ export const EventsManager: React.FC<EventsManagerProps> = ({
                 </div>
               </div>
 
-              {/* Cover Image URL */}
-              <div className="space-y-1">
-                <label className="block text-gray-300">COVER IMAGE URL</label>
-                <input
-                  type="text"
-                  value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  placeholder="/assets/images/events/gsoc-main.jpg"
-                  className="w-full bg-[#050806] border border-[#00FF66]/30 text-white px-3.5 py-2 rounded-xs focus:border-[#00FF66] focus:outline-none"
-                />
+              {/* Cover & Gallery Image Management System (Insert & Delete Images) */}
+              <div className="space-y-3 bg-[#050806] border border-[#00FF66]/30 p-4 rounded-xs">
+                <div className="flex items-center justify-between border-b border-[#00FF66]/20 pb-2">
+                  <label className="block text-[#00FF66] font-bold">📷 EVENT IMAGES &amp; GALLERY MANAGER</label>
+                  <span className="text-[10px] text-gray-400">
+                    {Array.isArray(formData.gallery) ? formData.gallery.length : 0} Images Attached
+                  </span>
+                </div>
+
+                {/* Cover Image Selection & Upload */}
+                <div className="space-y-2">
+                  <label className="block text-gray-300">MAIN COVER IMAGE URL / UPLOAD</label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={formData.image || ''}
+                      onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                      placeholder="/assets/images/events/gsoc-main.jpg or https://..."
+                      className="flex-1 bg-[#080C0A] border border-[#00FF66]/30 text-white px-3 py-2 rounded-xs focus:border-[#00FF66] focus:outline-none"
+                    />
+                    <label className="px-3 py-2 bg-[#00FF66]/10 border border-[#00FF66]/40 text-[#00FF66] hover:bg-[#00FF66]/20 text-xs font-bold rounded-xs cursor-pointer flex items-center gap-1 shrink-0">
+                      <span>📁 UPLOAD COVER</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleCoverUpload}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+
+                  {/* Cover Preview */}
+                  {formData.image && (
+                    <div className="relative w-full h-36 bg-black rounded-xs overflow-hidden border border-[#00FF66]/20 group">
+                      <img
+                        src={formData.image}
+                        alt="Cover Preview"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLElement).style.display = 'none';
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setFormData({ ...formData, image: '' })}
+                          className="px-2.5 py-1 bg-red-900/80 border border-red-500 text-red-200 text-[11px] font-bold rounded-xs hover:bg-red-800 cursor-pointer"
+                        >
+                          🗑️ DELETE COVER IMAGE
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Gallery Images List & Thumbnail Grid (Insert & Delete) */}
+                <div className="space-y-2 pt-2 border-t border-[#00FF66]/15">
+                  <div className="flex items-center justify-between">
+                    <label className="block text-gray-300">GALLERY IMAGES (INSERT &amp; DELETE)</label>
+                    <label className="px-3 py-1 bg-[#00FF66] text-black hover:bg-[#00E65C] text-[11px] font-bold rounded-xs cursor-pointer flex items-center gap-1">
+                      <span>+ 📁 UPLOAD GALLERY IMAGES</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={handleGalleryUpload}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+
+                  {/* Input field to Insert Image URL */}
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={newGalleryUrl}
+                      onChange={(e) => setNewGalleryUrl(e.target.value)}
+                      placeholder="Paste image URL to insert..."
+                      className="flex-1 bg-[#080C0A] border border-[#00FF66]/30 text-white px-3 py-1.5 rounded-xs focus:border-[#00FF66] focus:outline-none"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleAddGalleryUrl}
+                      className="px-3 py-1.5 bg-[#00FF66]/20 border border-[#00FF66]/50 text-[#00FF66] hover:bg-[#00FF66]/30 text-xs font-bold rounded-xs cursor-pointer"
+                    >
+                      + INSERT URL
+                    </button>
+                  </div>
+
+                  {/* Thumbnail Gallery Grid */}
+                  {Array.isArray(formData.gallery) && formData.gallery.length > 0 ? (
+                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 pt-2">
+                      {formData.gallery.map((imgUrl, idx) => (
+                        <div
+                          key={`${imgUrl}-${idx}`}
+                          className={`relative aspect-video bg-black rounded-xs overflow-hidden border ${
+                            formData.image === imgUrl ? 'border-[#00FF66] ring-1 ring-[#00FF66]' : 'border-gray-800'
+                          } group`}
+                        >
+                          <img
+                            src={imgUrl}
+                            alt={`Gallery item ${idx + 1}`}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              (e.target as HTMLElement).style.display = 'none';
+                            }}
+                          />
+                          {formData.image === imgUrl && (
+                            <span className="absolute top-1 left-1 bg-[#00FF66] text-black font-mono text-[9px] px-1.5 py-0.5 rounded-xs font-bold z-10">
+                              COVER
+                            </span>
+                          )}
+                          {/* Hover Actions */}
+                          <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5 p-1 z-20">
+                            {formData.image !== imgUrl && (
+                              <button
+                                type="button"
+                                onClick={() => handleSetAsCover(imgUrl)}
+                                className="w-full py-0.5 bg-[#00FF66]/20 border border-[#00FF66]/60 text-[#00FF66] hover:bg-[#00FF66]/40 text-[9px] font-bold rounded-xs cursor-pointer"
+                              >
+                                ⭐ SET COVER
+                              </button>
+                            )}
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteGalleryImage(idx)}
+                              className="w-full py-0.5 bg-red-950/90 border border-red-500 text-red-300 hover:bg-red-900 text-[9px] font-bold rounded-xs cursor-pointer"
+                            >
+                              🗑️ DELETE
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-[11px] text-gray-500 italic py-2">No gallery images added yet. Upload files or paste image URLs above to insert images.</p>
+                  )}
+                </div>
               </div>
 
               {/* Full Description */}

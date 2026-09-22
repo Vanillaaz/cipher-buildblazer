@@ -6,7 +6,7 @@ export interface LoginModalProps {
 }
 
 export const LoginModal: React.FC<LoginModalProps> = ({ onLoginSuccess }) => {
-  const [username, setUsername] = useState('admin');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -52,14 +52,10 @@ export const LoginModal: React.FC<LoginModalProps> = ({ onLoginSuccess }) => {
           </p>
         </div>
 
-        {/* Credentials Notice Box */}
-        <div className="bg-[#050806] border border-[#00FF66]/20 p-3 rounded-xs font-mono text-[11px] text-gray-400 space-y-1">
-          <div className="flex items-center justify-between text-[#00FF66] font-bold">
-            <span>[ SYSTEM AUTHENTICATION ]</span>
-            <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-pulse" />
-          </div>
-          <div className="text-gray-300">Default Admin Credentials:</div>
-          <div className="text-gray-400">User: <code className="text-[#00FF66]">admin</code> | Pass: <code className="text-[#00FF66]">cipheradmin2026</code></div>
+        {/* Authentication Header Badge */}
+        <div className="bg-[#050806] border border-[#00FF66]/20 p-2.5 rounded-xs font-mono text-[11px] text-[#00FF66] flex items-center justify-between font-bold">
+          <span>[ SECURE SYSTEM AUTHENTICATION ]</span>
+          <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-pulse" />
         </div>
 
         {/* Error Feedback */}
