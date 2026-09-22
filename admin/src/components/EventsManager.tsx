@@ -245,11 +245,8 @@ export const EventsManager: React.FC<EventsManagerProps> = ({
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    if (event.image && event.image.startsWith('/') && !target.src.includes('cipher-buildblazer.vercel.app')) {
-                      target.src = `https://cipher-buildblazer.vercel.app${event.image}`;
-                    } else {
-                      target.src = 'https://cipher-buildblazer.vercel.app/assets/images/about-photo.jpg';
-                    }
+                    target.onerror = null;
+                    target.src = '/assets/images/about-photo.jpg';
                   }}
                 />
                 <span className="absolute top-2 left-2 bg-black/80 border border-[#00FF66]/40 text-[#00FF66] font-mono text-[10px] px-2 py-0.5 rounded-xs font-bold">
@@ -423,9 +420,8 @@ export const EventsManager: React.FC<EventsManagerProps> = ({
                         className="w-full h-full object-cover"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
-                          if (formData.image && formData.image.startsWith('/') && !target.src.includes('cipher-buildblazer.vercel.app')) {
-                            target.src = `https://cipher-buildblazer.vercel.app${formData.image}`;
-                          }
+                          target.onerror = null;
+                          target.src = '/assets/images/about-photo.jpg';
                         }}
                       />
                       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
@@ -491,9 +487,8 @@ export const EventsManager: React.FC<EventsManagerProps> = ({
                             className="w-full h-full object-cover"
                             onError={(e) => {
                               const target = e.target as HTMLImageElement;
-                              if (imgUrl && imgUrl.startsWith('/') && !target.src.includes('cipher-buildblazer.vercel.app')) {
-                                target.src = `https://cipher-buildblazer.vercel.app${imgUrl}`;
-                              }
+                              target.onerror = null;
+                              target.src = '/assets/images/about-photo.jpg';
                             }}
                           />
                           {formData.image === imgUrl && (

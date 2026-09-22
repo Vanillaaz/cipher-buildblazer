@@ -146,11 +146,8 @@ export const TeamManager: React.FC<TeamManagerProps> = ({
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    if (member.photo && member.photo.startsWith('/') && !target.src.includes('cipher-buildblazer.vercel.app')) {
-                      target.src = `https://cipher-buildblazer.vercel.app${member.photo}`;
-                    } else {
-                      target.src = 'https://cipher-buildblazer.vercel.app/assets/images/about-photo.jpg';
-                    }
+                    target.onerror = null;
+                    target.src = '/assets/images/about-photo.jpg';
                   }}
                 />
                 <span className="absolute bottom-2 left-2 bg-black/80 border border-[#00FF66]/40 text-[#00FF66] font-mono text-[9px] px-2 py-0.5 rounded-xs font-bold uppercase">
