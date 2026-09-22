@@ -32,7 +32,7 @@ const CELL_H = VB_H / ROWS;
 
 // ── CIPHER mask font (clean futuristic tech font) ─────────────────────────────
 const CIPHER_FONT_PX  = 240;
-const CIPHER_FONT_CSS = `900 ${CIPHER_FONT_PX}px 'Space Grotesk', 'Inter', 'JetBrains Mono', sans-serif`;
+const CIPHER_FONT_CSS = `700 ${CIPHER_FONT_PX}px 'Space Grotesk', 'Inter', 'JetBrains Mono', sans-serif`;
 const CIPHER_SPACING  = '22px';
 const CIPHER_Y_NORM   = 0.80;   // fraction of VB_H for textBaseline=alphabetic
 
@@ -59,16 +59,35 @@ const SCRAMBLE_CHARSET: string[] = [
   '>', '<', '|', '!', '?', 'X', 'Z', '3', '8',
 ];
 
-// ── Colours ───────────────────────────────────────────────────────────────────
-// Default: slightly luminous off-white (not pure #FFF to feel digital)
-const C_WHITE = [235, 245, 238] as const;
-// Hover:   CIPHER green
-const C_GREEN = [0, 255, 102]   as const;
+// ── Multi-Neon Palette Hover Transition ───────────────────────────────────────
+const makeMultiNeonColor = (p: number, i: number, count: number, t: number): string => {
+  if (p <= 0.02) return 'rgb(240, 250, 245)';
 
-const makeColor = (p: number): string => {
-  const r = Math.round(C_WHITE[0] + (C_GREEN[0] - C_WHITE[0]) * p);
-  const g = Math.round(C_WHITE[1] + (C_GREEN[1] - C_WHITE[1]) * p);
-  const b = Math.round(C_WHITE[2] + (C_GREEN[2] - C_WHITE[2]) * p);
+  const charRatio = count > 0 ? i / count : 0;
+  const palette = [
+    [240, 250, 245], // Crisp Luminous White
+    [0, 229, 255],   // Electric Cyan
+    [0, 255, 102],   // Neon Green
+    [191, 0, 255],   // Vivid Violet
+    [0, 229, 255],   // Electric Cyan
+    [240, 250, 245], // Crisp White
+  ];
+
+  const cycle = Math.abs((charRatio * 2.5 + t * 0.7) % (palette.length - 1));
+  const idx = Math.floor(cycle);
+  const frac = cycle - idx;
+
+  const c1 = palette[idx];
+  const c2 = palette[idx + 1] || c1;
+
+  const targetR = c1[0] + (c2[0] - c1[0]) * frac;
+  const targetG = c1[1] + (c2[1] - c1[1]) * frac;
+  const targetB = c1[2] + (c2[2] - c1[2]) * frac;
+
+  const r = Math.round(240 + (targetR - 240) * p);
+  const g = Math.round(250 + (targetG - 250) * p);
+  const b = Math.round(245 + (targetB - 245) * p);
+
   return `rgb(${r},${g},${b})`;
 };
 
@@ -241,9 +260,6 @@ export const CipherGlyphWordmark: React.FC<CipherGlyphWordmarkProps> = ({
       st.hoverProgress  += (hoverTarget - st.hoverProgress) * lerpFactor;
       const hp           = st.hoverProgress;
 
-      // Shared colour for this frame (one string build per frame only)
-      const color = makeColor(Math.min(hp * 1.15, 1));
-
       // ── Transform: VB coords → physical canvas pixels ────────────────────
       ctx.setTransform(st.dpr * st.scale, 0, 0, st.dpr * st.scale, 0, 0);
       ctx.clearRect(0, 0, VB_W, VB_H);
@@ -251,7 +267,6 @@ export const CipherGlyphWordmark: React.FC<CipherGlyphWordmarkProps> = ({
       ctx.font         = `700 ${CHAR_FONT_PX}px "JetBrains Mono", monospace`;
       ctx.textBaseline = 'alphabetic';
       ctx.textAlign    = 'left';
-      ctx.fillStyle    = color;
 
       for (let i = 0; i < st.count; i++) {
         const bx = st.baseX[i];
@@ -296,6 +311,7 @@ export const CipherGlyphWordmark: React.FC<CipherGlyphWordmarkProps> = ({
         const rx = bx + st.curOffX[i] + st.hovOffX[i];
         const ry = by + st.curOffY[i] + st.hovOffY[i];
 
+        ctx.fillStyle   = makeMultiNeonColor(Math.min(hp * 1.15, 1), i, st.count, t);
         ctx.globalAlpha = st.opacity[i];
         ctx.fillText(char, rx, ry);
       }
@@ -307,7 +323,7 @@ export const CipherGlyphWordmark: React.FC<CipherGlyphWordmarkProps> = ({
     // Ensure Space Grotesk font is loaded before building grid, and rebuild if fonts finish loading later
     const initFontGrid = async () => {
       try {
-        await document.fonts.load('900 240px "Space Grotesk"');
+        await document.fonts.load('700 240px "Space Grotesk"');
       } catch (err) {
         await document.fonts.ready;
       }

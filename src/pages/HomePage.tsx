@@ -19,7 +19,7 @@ export const HomePage: React.FC = () => {
   const [introFinished, setIntroFinished] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#080C0A] text-gray-100 flex flex-col relative selection:bg-[#00FF66] selection:text-black cursor-none">
+    <div className="min-h-screen bg-[#080C0A] text-gray-100 flex flex-col relative selection:bg-[#00FF66] selection:text-black md:cursor-none">
       {/* Global custom cursor ring */}
       <CustomCursor />
       {/* Intro Boot Sequence Modal */}

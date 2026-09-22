@@ -10,6 +10,12 @@ export const CustomCursor: React.FC = () => {
   const ringRef = useRef<HTMLDivElement>(null);
   const dotRef  = useRef<HTMLDivElement>(null);
 
+  // Disable custom cursor ring on phone / touch screen devices
+  const isTouchDevice = typeof window !== 'undefined' && (
+    window.matchMedia('(pointer: coarse)').matches ||
+    window.matchMedia('(hover: none)').matches
+  );
+
   // Raw target position (updated instantly on mousemove)
   const targetRef  = useRef({ x: -200, y: -200 });
   // Smoothed position (lerped each RAF frame)
@@ -18,6 +24,7 @@ export const CustomCursor: React.FC = () => {
   const visibleRef = useRef(false);
 
   useEffect(() => {
+    if (isTouchDevice) return;
     const LERP = 0.18; // ring lag — lower = more lag
     const RING_HALF = 16; // half of ring diameter (32px / 2)
     const DOT_HALF  = 2;  // half of dot diameter (4px / 2)
@@ -68,6 +75,10 @@ export const CustomCursor: React.FC = () => {
       cancelAnimationFrame(rafRef.current);
     };
   }, []);
+
+  if (isTouchDevice) {
+    return null;
+  }
 
   return (
     <>
