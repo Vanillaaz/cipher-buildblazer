@@ -30,11 +30,11 @@ const ROWS  = 33;
 const CELL_W = VB_W / COLS;
 const CELL_H = VB_H / ROWS;
 
-// ── CIPHER mask font (must match exactly what is visible) ─────────────────────
-const CIPHER_FONT_PX  = 255;
-const CIPHER_FONT_CSS = `900 ${CIPHER_FONT_PX}px 'Pirata One', 'Cinzel Decorative', cursive`;
-const CIPHER_SPACING  = '28px';
-const CIPHER_Y_NORM   = 0.82;   // fraction of VB_H for textBaseline=alphabetic
+// ── CIPHER mask font (clean futuristic tech font) ─────────────────────────────
+const CIPHER_FONT_PX  = 240;
+const CIPHER_FONT_CSS = `900 ${CIPHER_FONT_PX}px 'Space Grotesk', 'Inter', 'JetBrains Mono', sans-serif`;
+const CIPHER_SPACING  = '22px';
+const CIPHER_Y_NORM   = 0.80;   // fraction of VB_H for textBaseline=alphabetic
 
 // ── Character rendering ───────────────────────────────────────────────────────
 const CHAR_FONT_PX = 8.4;
@@ -304,10 +304,10 @@ export const CipherGlyphWordmark: React.FC<CipherGlyphWordmarkProps> = ({
       st.rafId = requestAnimationFrame(tick);
     };
 
-    // Ensure Pirata One is loaded before building grid, and rebuild if fonts finish loading later
+    // Ensure Space Grotesk font is loaded before building grid, and rebuild if fonts finish loading later
     const initFontGrid = async () => {
       try {
-        await document.fonts.load('900 255px "Pirata One"');
+        await document.fonts.load('900 240px "Space Grotesk"');
       } catch (err) {
         await document.fonts.ready;
       }
