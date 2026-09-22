@@ -153,8 +153,17 @@ export const fetchDomains = async (): Promise<DomainItem[]> => {
         FROM domains
         ORDER BY order_index ASC, id ASC
       `;
-      if (Array.isArray(rows)) {
-        return rows as DomainItem[];
+      if (Array.isArray(rows) && rows.length > 0) {
+        return rows.map((r: any) => ({
+          id: r.id,
+          title: r.title,
+          code: r.code,
+          icon: r.icon,
+          description: r.description,
+          highlights: typeof r.highlights === 'string'
+            ? JSON.parse(r.highlights)
+            : (Array.isArray(r.highlights) ? r.highlights : []),
+        })) as DomainItem[];
       }
     } catch (err) {
       console.warn('[Neon DB] Domains query fallback to local static data:', err);
