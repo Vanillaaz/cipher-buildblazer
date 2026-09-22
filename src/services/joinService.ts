@@ -32,9 +32,11 @@ export const submitJoinRequest = async (
   };
 
   // 1. Store in Neon Postgres Database (if connected)
-  saveJoinApplicationToDb(newRecord).catch((err) => {
+  try {
+    await saveJoinApplicationToDb(newRecord);
+  } catch (err) {
     console.warn('Neon DB save error:', err);
-  });
+  }
 
   // 2. Store in LocalStorage as local backup
   try {
