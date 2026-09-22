@@ -8,6 +8,7 @@ import { TeamMember } from '../../types';
 export const TeamSection: React.FC = () => {
   const teamMembers: TeamMember[] = teamData as TeamMember[];
   const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
+  const [isPaused, setIsPaused] = useState(false);
   const trackRef = useRef<HTMLDivElement | null>(null);
 
   const scrollTrack = (direction: 'left' | 'right') => {
@@ -26,6 +27,25 @@ export const TeamSection: React.FC = () => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  // Automatic Smooth Sliding Loop
+  useEffect(() => {
+    if (isPaused || selectedMemberId !== null) return;
+
+    const interval = setInterval(() => {
+      if (!trackRef.current) return;
+      const track = trackRef.current;
+      const maxScroll = track.scrollWidth - track.clientWidth;
+
+      if (track.scrollLeft >= maxScroll - 15) {
+        track.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        track.scrollBy({ left: 284, behavior: 'smooth' });
+      }
+    }, 2800);
+
+    return () => clearInterval(interval);
+  }, [isPaused, selectedMemberId]);
 
   return (
     <section
@@ -73,11 +93,15 @@ export const TeamSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Horizontal Scrollable Gallery Track */}
+        {/* Horizontal Auto-Scroll Gallery Track (Scrollbar Removed) */}
         <div className="relative w-full py-4">
           <div
             ref={trackRef}
-            className="flex gap-6 overflow-x-auto scrollbar-thin scrollbar-thumb-[#00FF66]/30 scrollbar-track-[#050806] py-6 px-2 snap-x snap-mandatory focus-visible:outline-none"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            onTouchStart={() => setIsPaused(true)}
+            onTouchEnd={() => setIsPaused(false)}
+            className="flex gap-6 overflow-x-auto no-scrollbar [ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden py-6 px-2 snap-x snap-mandatory focus-visible:outline-none"
             tabIndex={0}
             aria-label="Team members horizontal gallery track"
           >

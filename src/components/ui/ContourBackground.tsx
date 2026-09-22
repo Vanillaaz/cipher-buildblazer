@@ -1,10 +1,10 @@
 import React, { useRef, useEffect } from 'react';
 
 /**
- * AnimatedContourBackground (3D Perspective Terrain Engine)
+ * AnimatedContourBackground (Vertical 3D Perspective Contour Engine)
  * ──────────────────────────────────────────────────────────
- * Renders a 3D wireframe topographic landscape with depth perspective,
- * atmospheric horizon fog, and fast fluid wave dynamics.
+ * Renders vertical 3D wireframe contour lines spanning the full website page
+ * with 3D depth perspective, atmospheric matrix fog, and controlled fluid speed.
  */
 
 export interface ContourBackgroundProps {
@@ -45,73 +45,70 @@ export const ContourBackground: React.FC<ContourBackgroundProps> = ({
     resize();
     window.addEventListener('resize', resize, { passive: true });
 
-    // ── 3D Terrain Wave Generator ───────────────────────────────────────────
-    const getTerrainHeight = (x: number, z: number, t: number): number => {
-      // Fast multi-frequency 3D wave harmonics
-      const wave1 = Math.sin(x * 0.0035 + t * 2.2) * Math.cos(z * 0.0028 + t * 1.6) * 95;
-      const wave2 = Math.sin(x * 0.0070 - t * 2.8 + z * 0.004) * 45;
-      const wave3 = Math.cos(x * 0.0020 + z * 0.0060 - t * 1.9) * 55;
-      const peakWarp = Math.sin((x + z) * 0.0018 + t * 1.4) * 35;
+    // ── 3D Vertical Wave Displacement Generator ─────────────────────────────────
+    const getTerrainDisplacement = (x: number, y: number, t: number): number => {
+      // Gentle, multi-frequency vertical 3D wave harmonics
+      const wave1 = Math.sin(y * 0.0028 + t * 0.9) * Math.cos(x * 0.0022 + t * 0.7) * 75;
+      const wave2 = Math.sin(y * 0.0055 - t * 1.1 + x * 0.003) * 35;
+      const wave3 = Math.cos(y * 0.0016 + x * 0.004 - t * 0.8) * 45;
+      const peakWarp = Math.sin((x + y) * 0.0014 + t * 0.6) * 30;
 
       return wave1 + wave2 + wave3 + peakWarp;
     };
 
-    // ── Main 3D Render Loop ─────────────────────────────────────────────────
+    // ── Main 3D Vertical Render Loop ──────────────────────────────────────────
     const draw = (ts: number) => {
       if (startTime === 0) startTime = ts;
-      // Faster time scaling for dynamic fluid motion
-      const t = prefersReducedMotion ? 0 : (ts - startTime) * 0.0018;
+      // Slightly reduced time scaling for smooth, elegant vertical flow
+      const t = prefersReducedMotion ? 0 : (ts - startTime) * 0.0008;
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
 
-      // Camera & 3D Perspective Setup
-      const fov = 420;
-      const cameraY = H * 0.52;
-      const horizonY = H * 0.42;
-      const centerX = W * 0.5;
+      // Camera Perspective & Grid Setup
+      const fov = 480;
+      const numCols = W >= 1024 ? 60 : 38; // Vertical contour lines across width
+      const numRows = W >= 1024 ? 80 : 50; // Vertical resolution down height
 
-      // 3D Grid Parameters
-      const numRows = W >= 1024 ? 65 : 45;
-      const numCols = W >= 1024 ? 85 : 55;
-      const zNear = 80;
-      const zFar = 1350;
-      const zStep = (zFar - zNear) / numRows;
-      const xSpan = W * 2.2;
+      const xSpan = W * 1.8;
       const xStep = xSpan / numCols;
+      const yStep = (H + 200) / numRows;
+      const startY = -100;
+      const centerX = W * 0.5;
+      const centerZ = 350;
 
-      // 1. Draw Horizon Ambient Glow (Atmospheric Matrix Fog)
-      const fogGradient = ctx.createLinearGradient(0, horizonY - 60, 0, horizonY + 120);
-      fogGradient.addColorStop(0, 'rgba(0, 255, 102, 0)');
-      fogGradient.addColorStop(0.5, 'rgba(0, 255, 102, 0.06)');
-      fogGradient.addColorStop(1, 'rgba(0, 255, 102, 0)');
-      ctx.fillStyle = fogGradient;
-      ctx.fillRect(0, horizonY - 60, W, 180);
+      // 1. Vertical Ambient Matrix Glow Gradient
+      const verticalGlow = ctx.createLinearGradient(0, 0, 0, H);
+      verticalGlow.addColorStop(0, 'rgba(0, 255, 102, 0.03)');
+      verticalGlow.addColorStop(0.5, 'rgba(0, 255, 102, 0.06)');
+      verticalGlow.addColorStop(1, 'rgba(0, 255, 102, 0.03)');
+      ctx.fillStyle = verticalGlow;
+      ctx.fillRect(0, 0, W, H);
 
-      // 2. Render 3D Perspective Contour Lines (Back to Front for Depth)
-      for (let r = numRows - 1; r >= 0; r--) {
-        const worldZ = zNear + r * zStep;
-        const scale = fov / (worldZ + fov);
-
-        // Distance alpha fading (Atmospheric Z-depth fog)
-        const depthRatio = 1 - r / numRows; // 1 near camera, 0 far away
-        const lineAlpha = Math.pow(depthRatio, 1.4) * 0.42 + 0.04;
-        const isMajorIndex = r % 6 === 0;
+      // 2. Render Vertical Contour Lines (Running Top to Bottom)
+      for (let c = 0; c <= numCols; c++) {
+        const baseX = -xSpan * 0.5 + c * xStep;
+        const isMajorLine = c % 4 === 0;
 
         ctx.beginPath();
         ctx.strokeStyle = '#00FF66';
-        ctx.globalAlpha = isMajorIndex ? Math.min(lineAlpha * 1.5, 0.75) : lineAlpha;
-        ctx.lineWidth = isMajorIndex ? 1.25 : 0.75;
+
+        const lineAlpha = isMajorLine ? 0.32 : 0.14;
+        const normalizedX = (c / numCols) * 2 - 1; // -1 to 1 across screen width
+        const edgeFade = 1 - Math.pow(Math.abs(normalizedX), 2.2) * 0.55;
+        ctx.globalAlpha = Math.max(0.04, lineAlpha * edgeFade);
+        ctx.lineWidth = isMajorLine ? 1.2 : 0.7;
 
         let first = true;
 
-        for (let c = 0; c <= numCols; c++) {
-          const worldX = -xSpan * 0.5 + c * xStep;
-          const heightOffset = getTerrainHeight(worldX, worldZ, t);
+        for (let r = 0; r <= numRows; r++) {
+          const worldY = startY + r * yStep;
+          const depthZ = centerZ + Math.sin(worldY * 0.002 + t) * 70;
+          const scale = fov / (depthZ + fov);
 
-          // 3D Perspective Projection
-          const screenX = centerX + worldX * scale;
-          const screenY = horizonY + (cameraY - horizonY) * scale - heightOffset * scale;
+          const dispX = getTerrainDisplacement(baseX, worldY, t);
+          const screenX = centerX + (baseX + dispX) * scale;
+          const screenY = worldY;
 
           if (first) {
             ctx.moveTo(screenX, screenY);
@@ -124,26 +121,29 @@ export const ContourBackground: React.FC<ContourBackgroundProps> = ({
         ctx.stroke();
       }
 
-      // 3. Render Longitudinal Perspective Rays (Cross 3D Mesh Ribs)
-      const numRays = W >= 1024 ? 36 : 22;
-      const rayStep = xSpan / numRays;
+      // 3. Render Horizontal Cross Contour Ribs (Subtle Surface Mesh Grid)
+      const horizontalStepCount = W >= 1024 ? 32 : 20;
+      const hRowStep = numRows / horizontalStepCount;
 
-      for (let c = 0; c <= numRays; c++) {
-        const worldX = -xSpan * 0.5 + c * rayStep;
+      for (let hr = 0; hr <= horizontalStepCount; hr++) {
+        const r = Math.floor(hr * hRowStep);
+        const worldY = startY + r * yStep;
+
         ctx.beginPath();
         ctx.strokeStyle = '#00FF66';
-        ctx.globalAlpha = 0.12;
-        ctx.lineWidth = 0.6;
+        ctx.globalAlpha = 0.07;
+        ctx.lineWidth = 0.55;
 
         let first = true;
 
-        for (let r = numRows - 1; r >= 0; r += -2) {
-          const worldZ = zNear + r * zStep;
-          const scale = fov / (worldZ + fov);
-          const heightOffset = getTerrainHeight(worldX, worldZ, t);
+        for (let c = 0; c <= numCols; c++) {
+          const baseX = -xSpan * 0.5 + c * xStep;
+          const depthZ = centerZ + Math.sin(worldY * 0.002 + t) * 70;
+          const scale = fov / (depthZ + fov);
 
-          const screenX = centerX + worldX * scale;
-          const screenY = horizonY + (cameraY - horizonY) * scale - heightOffset * scale;
+          const dispX = getTerrainDisplacement(baseX, worldY, t);
+          const screenX = centerX + (baseX + dispX) * scale;
+          const screenY = worldY;
 
           if (first) {
             ctx.moveTo(screenX, screenY);
@@ -180,4 +180,5 @@ export const ContourBackground: React.FC<ContourBackgroundProps> = ({
     />
   );
 };
+
 
