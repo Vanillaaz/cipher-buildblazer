@@ -118,7 +118,7 @@ export const fetchDbTeam = async (): Promise<TeamMember[]> => {
         FROM team_members
         ORDER BY order_index ASC, id ASC
       `;
-      if (Array.isArray(rows)) {
+      if (Array.isArray(rows) && rows.length > 0) {
         return rows.map((r: any) => ({
           id: r.id,
           name: r.name,
