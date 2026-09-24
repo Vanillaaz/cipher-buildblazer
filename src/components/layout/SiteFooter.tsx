@@ -1,5 +1,4 @@
 import React from 'react';
-import { CipherEmblemLogo } from '../ui/CipherEmblemLogo';
 
 export const SiteFooter: React.FC = () => {
   const handleBackToTop = (e: React.MouseEvent) => {
@@ -23,8 +22,13 @@ export const SiteFooter: React.FC = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
           {/* Brand & Organizational Wording */}
           <div className="flex flex-col sm:flex-row items-center gap-4">
-            <a href="#home" onClick={handleBackToTop} className="focus:outline-none focus:ring-2 focus:ring-[#00FF66] rounded-xs">
-              <CipherEmblemLogo size={42} />
+            <a href="#home" onClick={handleBackToTop} className="focus:outline-none focus:ring-2 focus:ring-[#00FF66] rounded-xs group">
+              <img
+                src="/assets/images/cipher-logo.png"
+                alt="CIPHER Logo"
+                className="h-10 md:h-12 w-auto object-contain select-none transition-transform duration-300 group-hover:scale-105 drop-shadow-[0_0_15px_rgba(0,255,102,0.4)]"
+                draggable={false}
+              />
             </a>
             <div className="flex flex-col gap-1">
               <div className="flex items-center justify-center md:justify-start gap-2">

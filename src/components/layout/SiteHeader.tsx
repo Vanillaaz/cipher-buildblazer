@@ -23,16 +23,16 @@ export const SiteHeader: React.FC = () => {
   return (
     <header className="sticky top-0 z-50 w-full bg-[#080C0A]/90 backdrop-blur-md border-b border-[#00FF66]/15 transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 md:h-16 flex items-center justify-between">
-        {/* Official CIPHER SVG Logo — top left corner */}
+        {/* Official CIPHER Emblem Logo — top left corner */}
         <a
           href="#home"
           className="flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00FF66] rounded-sm py-1 group"
           aria-label="CIPHER Home"
         >
           <img
-            src="/assets/images/cipher-logo.svg"
+            src="/assets/images/cipher-logo.png"
             alt="CIPHER – CSE Student Association, SJEC"
-            className="w-[140px] sm:w-[160px] md:w-[190px] h-auto object-contain select-none transition-transform duration-300 group-hover:scale-105"
+            className="h-10 sm:h-12 md:h-14 w-auto object-contain select-none transition-transform duration-300 group-hover:scale-105 drop-shadow-[0_0_15px_rgba(0,255,102,0.3)]"
             draggable={false}
           />
         </a>
